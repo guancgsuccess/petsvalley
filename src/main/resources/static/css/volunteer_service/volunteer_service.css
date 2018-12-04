@@ -1,0 +1,9 @@
+.service-info{
+    border:1px solid #ffcc00;
+    padding: 10px;
+    background:#ffffff;
+}
+.service-title,.service-reward{
+    float: left;
+    margin-right: 2em;
+}

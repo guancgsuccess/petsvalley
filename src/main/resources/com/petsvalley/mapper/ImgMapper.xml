@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.ImgMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Img">
+    <id column="img_id" jdbcType="INTEGER" property="imgId" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="img_state" jdbcType="INTEGER" property="imgState" />
+    <result column="img_type" jdbcType="INTEGER" property="imgType" />
+    <result column="cust_role" jdbcType="INTEGER" property="custRole" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="pet_id" jdbcType="INTEGER" property="petId" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="strategy_id" jdbcType="INTEGER" property="strategyId" />
+    <result column="img_spare" jdbcType="VARCHAR" property="imgSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    img_id, `path`, img_state, img_type, cust_role, cust_id, pet_id, post_id, strategy_id, 
+    img_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.ImgExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from img
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from img
+    where img_id = #{imgId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from img
+    where img_id = #{imgId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.ImgExample">
+    delete from img
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Img">
+    insert into img (img_id, `path`, img_state, 
+      img_type, cust_role, cust_id, 
+      pet_id, post_id, strategy_id, 
+      img_spare)
+    values (#{imgId,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR}, #{imgState,jdbcType=INTEGER}, 
+      #{imgType,jdbcType=INTEGER}, #{custRole,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, 
+      #{petId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, #{strategyId,jdbcType=INTEGER}, 
+      #{imgSpare,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Img">
+    insert into img
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="imgId != null">
+        img_id,
+      </if>
+      <if test="path != null">
+        `path`,
+      </if>
+      <if test="imgState != null">
+        img_state,
+      </if>
+      <if test="imgType != null">
+        img_type,
+      </if>
+      <if test="custRole != null">
+        cust_role,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="petId != null">
+        pet_id,
+      </if>
+      <if test="postId != null">
+        post_id,
+      </if>
+      <if test="strategyId != null">
+        strategy_id,
+      </if>
+      <if test="imgSpare != null">
+        img_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="imgId != null">
+        #{imgId,jdbcType=INTEGER},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="imgState != null">
+        #{imgState,jdbcType=INTEGER},
+      </if>
+      <if test="imgType != null">
+        #{imgType,jdbcType=INTEGER},
+      </if>
+      <if test="custRole != null">
+        #{custRole,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="petId != null">
+        #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null">
+        #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="strategyId != null">
+        #{strategyId,jdbcType=INTEGER},
+      </if>
+      <if test="imgSpare != null">
+        #{imgSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.ImgExample" resultType="java.lang.Long">
+    select count(*) from img
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update img
+    <set>
+      <if test="record.imgId != null">
+        img_id = #{record.imgId,jdbcType=INTEGER},
+      </if>
+      <if test="record.path != null">
+        `path` = #{record.path,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imgState != null">
+        img_state = #{record.imgState,jdbcType=INTEGER},
+      </if>
+      <if test="record.imgType != null">
+        img_type = #{record.imgType,jdbcType=INTEGER},
+      </if>
+      <if test="record.custRole != null">
+        cust_role = #{record.custRole,jdbcType=INTEGER},
+      </if>
+      <if test="record.custId != null">
+        cust_id = #{record.custId,jdbcType=INTEGER},
+      </if>
+      <if test="record.petId != null">
+        pet_id = #{record.petId,jdbcType=INTEGER},
+      </if>
+      <if test="record.postId != null">
+        post_id = #{record.postId,jdbcType=INTEGER},
+      </if>
+      <if test="record.strategyId != null">
+        strategy_id = #{record.strategyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.imgSpare != null">
+        img_spare = #{record.imgSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update img
+    set img_id = #{record.imgId,jdbcType=INTEGER},
+      `path` = #{record.path,jdbcType=VARCHAR},
+      img_state = #{record.imgState,jdbcType=INTEGER},
+      img_type = #{record.imgType,jdbcType=INTEGER},
+      cust_role = #{record.custRole,jdbcType=INTEGER},
+      cust_id = #{record.custId,jdbcType=INTEGER},
+      pet_id = #{record.petId,jdbcType=INTEGER},
+      post_id = #{record.postId,jdbcType=INTEGER},
+      strategy_id = #{record.strategyId,jdbcType=INTEGER},
+      img_spare = #{record.imgSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Img">
+    update img
+    <set>
+      <if test="path != null">
+        `path` = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="imgState != null">
+        img_state = #{imgState,jdbcType=INTEGER},
+      </if>
+      <if test="imgType != null">
+        img_type = #{imgType,jdbcType=INTEGER},
+      </if>
+      <if test="custRole != null">
+        cust_role = #{custRole,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="petId != null">
+        pet_id = #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null">
+        post_id = #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="strategyId != null">
+        strategy_id = #{strategyId,jdbcType=INTEGER},
+      </if>
+      <if test="imgSpare != null">
+        img_spare = #{imgSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where img_id = #{imgId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Img">
+    update img
+    set `path` = #{path,jdbcType=VARCHAR},
+      img_state = #{imgState,jdbcType=INTEGER},
+      img_type = #{imgType,jdbcType=INTEGER},
+      cust_role = #{custRole,jdbcType=INTEGER},
+      cust_id = #{custId,jdbcType=INTEGER},
+      pet_id = #{petId,jdbcType=INTEGER},
+      post_id = #{postId,jdbcType=INTEGER},
+      strategy_id = #{strategyId,jdbcType=INTEGER},
+      img_spare = #{imgSpare,jdbcType=VARCHAR}
+    where img_id = #{imgId,jdbcType=INTEGER}
+  </update>
+  <select id="selectFindPetImages" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from img
+    where cust_id=#{arg0} and pet_id=#{arg1} and img_type=1
+  </select>
+  <select id="selectFosterImages" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from img
+    where cust_id=#{arg0} and pet_id=#{arg1} and img_type=3
+  </select>
+  <select id="selectClaimImages" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from img
+    where cust_id=#{arg0} and img_spare=#{arg1} and img_type=2
+  </select>
+</mapper>

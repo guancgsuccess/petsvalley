@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.PostMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Post">
+    <id column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="post_title" jdbcType="VARCHAR" property="postTitle" />
+    <result column="post_content" jdbcType="VARCHAR" property="postContent" />
+    <result column="post_time" jdbcType="TIMESTAMP" property="postTime" />
+    <result column="post_count" jdbcType="INTEGER" property="postCount" />
+    <result column="post_photo" jdbcType="VARCHAR" property="postPhoto" />
+    <result column="post_state" jdbcType="INTEGER" property="postState" />
+    <result column="post_spare" jdbcType="VARCHAR" property="postSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    post_id, cust_id, post_title, post_content, post_time, post_count, post_photo, post_state, 
+    post_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.PostExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from post
+    where post_id = #{postId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from post
+    where post_id = #{postId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.PostExample">
+    delete from post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Post">
+    insert into post (post_id, cust_id, post_title, 
+      post_content, post_time, post_count, 
+      post_photo, post_state, post_spare
+      )
+    values (#{postId,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{postTitle,jdbcType=VARCHAR}, 
+      #{postContent,jdbcType=VARCHAR}, #{postTime,jdbcType=TIMESTAMP}, #{postCount,jdbcType=INTEGER}, 
+      #{postPhoto,jdbcType=VARCHAR}, #{postState,jdbcType=INTEGER}, #{postSpare,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Post">
+    insert into post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="postId != null">
+        post_id,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="postTitle != null">
+        post_title,
+      </if>
+      <if test="postContent != null">
+        post_content,
+      </if>
+      <if test="postTime != null">
+        post_time,
+      </if>
+      <if test="postCount != null">
+        post_count,
+      </if>
+      <if test="postPhoto != null">
+        post_photo,
+      </if>
+      <if test="postState != null">
+        post_state,
+      </if>
+      <if test="postSpare != null">
+        post_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="postId != null">
+        #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="postTitle != null">
+        #{postTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="postContent != null">
+        #{postContent,jdbcType=VARCHAR},
+      </if>
+      <if test="postTime != null">
+        #{postTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postCount != null">
+        #{postCount,jdbcType=INTEGER},
+      </if>
+      <if test="postPhoto != null">
+        #{postPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="postState != null">
+        #{postState,jdbcType=INTEGER},
+      </if>
+      <if test="postSpare != null">
+        #{postSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.PostExample" resultType="java.lang.Long">
+    select count(*) from post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update post
+    <set>
+      <if test="record.postId != null">
+        post_id = #{record.postId,jdbcType=INTEGER},
+      </if>
+      <if test="record.custId != null">
+        cust_id = #{record.custId,jdbcType=INTEGER},
+      </if>
+      <if test="record.postTitle != null">
+        post_title = #{record.postTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postContent != null">
+        post_content = #{record.postContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postTime != null">
+        post_time = #{record.postTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.postCount != null">
+        post_count = #{record.postCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.postPhoto != null">
+        post_photo = #{record.postPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postState != null">
+        post_state = #{record.postState,jdbcType=INTEGER},
+      </if>
+      <if test="record.postSpare != null">
+        post_spare = #{record.postSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update post
+    set post_id = #{record.postId,jdbcType=INTEGER},
+      cust_id = #{record.custId,jdbcType=INTEGER},
+      post_title = #{record.postTitle,jdbcType=VARCHAR},
+      post_content = #{record.postContent,jdbcType=VARCHAR},
+      post_time = #{record.postTime,jdbcType=TIMESTAMP},
+      post_count = #{record.postCount,jdbcType=INTEGER},
+      post_photo = #{record.postPhoto,jdbcType=VARCHAR},
+      post_state = #{record.postState,jdbcType=INTEGER},
+      post_spare = #{record.postSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Post">
+    update post
+    <set>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="postTitle != null">
+        post_title = #{postTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="postContent != null">
+        post_content = #{postContent,jdbcType=VARCHAR},
+      </if>
+      <if test="postTime != null">
+        post_time = #{postTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postCount != null">
+        post_count = #{postCount,jdbcType=INTEGER},
+      </if>
+      <if test="postPhoto != null">
+        post_photo = #{postPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="postState != null">
+        post_state = #{postState,jdbcType=INTEGER},
+      </if>
+      <if test="postSpare != null">
+        post_spare = #{postSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where post_id = #{postId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Post">
+    update post
+    set cust_id = #{custId,jdbcType=INTEGER},
+      post_title = #{postTitle,jdbcType=VARCHAR},
+      post_content = #{postContent,jdbcType=VARCHAR},
+      post_time = #{postTime,jdbcType=TIMESTAMP},
+      post_count = #{postCount,jdbcType=INTEGER},
+      post_photo = #{postPhoto,jdbcType=VARCHAR},
+      post_state = #{postState,jdbcType=INTEGER},
+      post_spare = #{postSpare,jdbcType=VARCHAR}
+    where post_id = #{postId,jdbcType=INTEGER}
+  </update>
+  <select id="getByCommCount" resultMap="BaseResultMap">
+    select post_id
+    FROM comment
+    GROUP BY post_id
+    ORDER BY COUNT(comm_id) desc
+    LIMIT 0,5;
+  </select>
+</mapper>

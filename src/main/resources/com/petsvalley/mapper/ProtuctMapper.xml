@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.ProtuctMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Protuct">
+    <id column="pro_id" jdbcType="INTEGER" property="proId" />
+    <result column="pro_name" jdbcType="VARCHAR" property="proName" />
+    <result column="pro_type" jdbcType="VARCHAR" property="proType" />
+    <result column="pro_message" jdbcType="VARCHAR" property="proMessage" />
+    <result column="pro_price" jdbcType="DOUBLE" property="proPrice" />
+    <result column="pro_photo" jdbcType="VARCHAR" property="proPhoto" />
+    <result column="pro_buy" jdbcType="VARCHAR" property="proBuy" />
+    <result column="pro_state" jdbcType="INTEGER" property="proState" />
+    <result column="pro_spare" jdbcType="VARCHAR" property="proSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pro_id, pro_name, pro_type, pro_message, pro_price, pro_photo, pro_buy, pro_state, 
+    pro_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.ProtuctExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from protuct
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from protuct
+    where pro_id = #{proId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from protuct
+    where pro_id = #{proId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.ProtuctExample">
+    delete from protuct
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Protuct">
+    insert into protuct (pro_id, pro_name, pro_type, 
+      pro_message, pro_price, pro_photo, 
+      pro_buy, pro_state, pro_spare
+      )
+    values (#{proId,jdbcType=INTEGER}, #{proName,jdbcType=VARCHAR}, #{proType,jdbcType=VARCHAR}, 
+      #{proMessage,jdbcType=VARCHAR}, #{proPrice,jdbcType=DOUBLE}, #{proPhoto,jdbcType=VARCHAR}, 
+      #{proBuy,jdbcType=VARCHAR}, #{proState,jdbcType=INTEGER}, #{proSpare,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Protuct">
+    insert into protuct
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="proId != null">
+        pro_id,
+      </if>
+      <if test="proName != null">
+        pro_name,
+      </if>
+      <if test="proType != null">
+        pro_type,
+      </if>
+      <if test="proMessage != null">
+        pro_message,
+      </if>
+      <if test="proPrice != null">
+        pro_price,
+      </if>
+      <if test="proPhoto != null">
+        pro_photo,
+      </if>
+      <if test="proBuy != null">
+        pro_buy,
+      </if>
+      <if test="proState != null">
+        pro_state,
+      </if>
+      <if test="proSpare != null">
+        pro_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="proId != null">
+        #{proId,jdbcType=INTEGER},
+      </if>
+      <if test="proName != null">
+        #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="proType != null">
+        #{proType,jdbcType=VARCHAR},
+      </if>
+      <if test="proMessage != null">
+        #{proMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="proPrice != null">
+        #{proPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="proPhoto != null">
+        #{proPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="proBuy != null">
+        #{proBuy,jdbcType=VARCHAR},
+      </if>
+      <if test="proState != null">
+        #{proState,jdbcType=INTEGER},
+      </if>
+      <if test="proSpare != null">
+        #{proSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.ProtuctExample" resultType="java.lang.Long">
+    select count(*) from protuct
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update protuct
+    <set>
+      <if test="record.proId != null">
+        pro_id = #{record.proId,jdbcType=INTEGER},
+      </if>
+      <if test="record.proName != null">
+        pro_name = #{record.proName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proType != null">
+        pro_type = #{record.proType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proMessage != null">
+        pro_message = #{record.proMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proPrice != null">
+        pro_price = #{record.proPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.proPhoto != null">
+        pro_photo = #{record.proPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proBuy != null">
+        pro_buy = #{record.proBuy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proState != null">
+        pro_state = #{record.proState,jdbcType=INTEGER},
+      </if>
+      <if test="record.proSpare != null">
+        pro_spare = #{record.proSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update protuct
+    set pro_id = #{record.proId,jdbcType=INTEGER},
+      pro_name = #{record.proName,jdbcType=VARCHAR},
+      pro_type = #{record.proType,jdbcType=VARCHAR},
+      pro_message = #{record.proMessage,jdbcType=VARCHAR},
+      pro_price = #{record.proPrice,jdbcType=DOUBLE},
+      pro_photo = #{record.proPhoto,jdbcType=VARCHAR},
+      pro_buy = #{record.proBuy,jdbcType=VARCHAR},
+      pro_state = #{record.proState,jdbcType=INTEGER},
+      pro_spare = #{record.proSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Protuct">
+    update protuct
+    <set>
+      <if test="proName != null">
+        pro_name = #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="proType != null">
+        pro_type = #{proType,jdbcType=VARCHAR},
+      </if>
+      <if test="proMessage != null">
+        pro_message = #{proMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="proPrice != null">
+        pro_price = #{proPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="proPhoto != null">
+        pro_photo = #{proPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="proBuy != null">
+        pro_buy = #{proBuy,jdbcType=VARCHAR},
+      </if>
+      <if test="proState != null">
+        pro_state = #{proState,jdbcType=INTEGER},
+      </if>
+      <if test="proSpare != null">
+        pro_spare = #{proSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pro_id = #{proId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Protuct">
+    update protuct
+    set pro_name = #{proName,jdbcType=VARCHAR},
+      pro_type = #{proType,jdbcType=VARCHAR},
+      pro_message = #{proMessage,jdbcType=VARCHAR},
+      pro_price = #{proPrice,jdbcType=DOUBLE},
+      pro_photo = #{proPhoto,jdbcType=VARCHAR},
+      pro_buy = #{proBuy,jdbcType=VARCHAR},
+      pro_state = #{proState,jdbcType=INTEGER},
+      pro_spare = #{proSpare,jdbcType=VARCHAR}
+    where pro_id = #{proId,jdbcType=INTEGER}
+  </update>
+</mapper>

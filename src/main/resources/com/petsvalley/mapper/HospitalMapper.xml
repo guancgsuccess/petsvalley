@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.HospitalMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Hospital">
+    <id column="hos_id" jdbcType="INTEGER" property="hosId" />
+    <result column="hos_name" jdbcType="VARCHAR" property="hosName" />
+    <result column="hos_tele" jdbcType="VARCHAR" property="hosTele" />
+    <result column="hos_place" jdbcType="VARCHAR" property="hosPlace" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="hos_photo" jdbcType="VARCHAR" property="hosPhoto" />
+    <result column="hos_message" jdbcType="VARCHAR" property="hosMessage" />
+    <result column="hos_state" jdbcType="INTEGER" property="hosState" />
+    <result column="hos_spare" jdbcType="VARCHAR" property="hosSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    hos_id, hos_name, hos_tele, hos_place, cust_id, hos_photo, hos_message, hos_state, 
+    hos_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.HospitalExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from hospital
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hospital
+    where hos_id = #{hosId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hospital
+    where hos_id = #{hosId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.HospitalExample">
+    delete from hospital
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Hospital">
+    insert into hospital (hos_id, hos_name, hos_tele, 
+      hos_place, cust_id, hos_photo, 
+      hos_message, hos_state, hos_spare
+      )
+    values (#{hosId,jdbcType=INTEGER}, #{hosName,jdbcType=VARCHAR}, #{hosTele,jdbcType=VARCHAR}, 
+      #{hosPlace,jdbcType=VARCHAR}, #{custId,jdbcType=INTEGER}, #{hosPhoto,jdbcType=VARCHAR}, 
+      #{hosMessage,jdbcType=VARCHAR}, #{hosState,jdbcType=INTEGER}, #{hosSpare,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Hospital">
+    insert into hospital
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="hosId != null">
+        hos_id,
+      </if>
+      <if test="hosName != null">
+        hos_name,
+      </if>
+      <if test="hosTele != null">
+        hos_tele,
+      </if>
+      <if test="hosPlace != null">
+        hos_place,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="hosPhoto != null">
+        hos_photo,
+      </if>
+      <if test="hosMessage != null">
+        hos_message,
+      </if>
+      <if test="hosState != null">
+        hos_state,
+      </if>
+      <if test="hosSpare != null">
+        hos_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="hosId != null">
+        #{hosId,jdbcType=INTEGER},
+      </if>
+      <if test="hosName != null">
+        #{hosName,jdbcType=VARCHAR},
+      </if>
+      <if test="hosTele != null">
+        #{hosTele,jdbcType=VARCHAR},
+      </if>
+      <if test="hosPlace != null">
+        #{hosPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="hosPhoto != null">
+        #{hosPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="hosMessage != null">
+        #{hosMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="hosState != null">
+        #{hosState,jdbcType=INTEGER},
+      </if>
+      <if test="hosSpare != null">
+        #{hosSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.HospitalExample" resultType="java.lang.Long">
+    select count(*) from hospital
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update hospital
+    <set>
+      <if test="record.hosId != null">
+        hos_id = #{record.hosId,jdbcType=INTEGER},
+      </if>
+      <if test="record.hosName != null">
+        hos_name = #{record.hosName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hosTele != null">
+        hos_tele = #{record.hosTele,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hosPlace != null">
+        hos_place = #{record.hosPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custId != null">
+        cust_id = #{record.custId,jdbcType=INTEGER},
+      </if>
+      <if test="record.hosPhoto != null">
+        hos_photo = #{record.hosPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hosMessage != null">
+        hos_message = #{record.hosMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hosState != null">
+        hos_state = #{record.hosState,jdbcType=INTEGER},
+      </if>
+      <if test="record.hosSpare != null">
+        hos_spare = #{record.hosSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update hospital
+    set hos_id = #{record.hosId,jdbcType=INTEGER},
+      hos_name = #{record.hosName,jdbcType=VARCHAR},
+      hos_tele = #{record.hosTele,jdbcType=VARCHAR},
+      hos_place = #{record.hosPlace,jdbcType=VARCHAR},
+      cust_id = #{record.custId,jdbcType=INTEGER},
+      hos_photo = #{record.hosPhoto,jdbcType=VARCHAR},
+      hos_message = #{record.hosMessage,jdbcType=VARCHAR},
+      hos_state = #{record.hosState,jdbcType=INTEGER},
+      hos_spare = #{record.hosSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Hospital">
+    update hospital
+    <set>
+      <if test="hosName != null">
+        hos_name = #{hosName,jdbcType=VARCHAR},
+      </if>
+      <if test="hosTele != null">
+        hos_tele = #{hosTele,jdbcType=VARCHAR},
+      </if>
+      <if test="hosPlace != null">
+        hos_place = #{hosPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="hosPhoto != null">
+        hos_photo = #{hosPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="hosMessage != null">
+        hos_message = #{hosMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="hosState != null">
+        hos_state = #{hosState,jdbcType=INTEGER},
+      </if>
+      <if test="hosSpare != null">
+        hos_spare = #{hosSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where hos_id = #{hosId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Hospital">
+    update hospital
+    set hos_name = #{hosName,jdbcType=VARCHAR},
+      hos_tele = #{hosTele,jdbcType=VARCHAR},
+      hos_place = #{hosPlace,jdbcType=VARCHAR},
+      cust_id = #{custId,jdbcType=INTEGER},
+      hos_photo = #{hosPhoto,jdbcType=VARCHAR},
+      hos_message = #{hosMessage,jdbcType=VARCHAR},
+      hos_state = #{hosState,jdbcType=INTEGER},
+      hos_spare = #{hosSpare,jdbcType=VARCHAR}
+    where hos_id = #{hosId,jdbcType=INTEGER}
+  </update>
+</mapper>

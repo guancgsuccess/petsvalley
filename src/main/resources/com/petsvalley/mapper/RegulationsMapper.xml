@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.RegulationsMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Regulations">
+    <id column="reg_id" jdbcType="INTEGER" property="regId" />
+    <result column="reg_content" jdbcType="VARCHAR" property="regContent" />
+    <result column="reg_title" jdbcType="VARCHAR" property="regTitle" />
+    <result column="reg_department" jdbcType="VARCHAR" property="regDepartment" />
+    <result column="pun_content" jdbcType="VARCHAR" property="punContent" />
+    <result column="reg_state" jdbcType="INTEGER" property="regState" />
+    <result column="reg_spare" jdbcType="VARCHAR" property="regSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    reg_id, reg_content, reg_title, reg_department, pun_content, reg_state, reg_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.RegulationsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from regulations
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from regulations
+    where reg_id = #{regId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from regulations
+    where reg_id = #{regId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.RegulationsExample">
+    delete from regulations
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Regulations">
+    insert into regulations (reg_id, reg_content, reg_title, 
+      reg_department, pun_content, reg_state, 
+      reg_spare)
+    values (#{regId,jdbcType=INTEGER}, #{regContent,jdbcType=VARCHAR}, #{regTitle,jdbcType=VARCHAR}, 
+      #{regDepartment,jdbcType=VARCHAR}, #{punContent,jdbcType=VARCHAR}, #{regState,jdbcType=INTEGER}, 
+      #{regSpare,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Regulations">
+    insert into regulations
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="regId != null">
+        reg_id,
+      </if>
+      <if test="regContent != null">
+        reg_content,
+      </if>
+      <if test="regTitle != null">
+        reg_title,
+      </if>
+      <if test="regDepartment != null">
+        reg_department,
+      </if>
+      <if test="punContent != null">
+        pun_content,
+      </if>
+      <if test="regState != null">
+        reg_state,
+      </if>
+      <if test="regSpare != null">
+        reg_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="regId != null">
+        #{regId,jdbcType=INTEGER},
+      </if>
+      <if test="regContent != null">
+        #{regContent,jdbcType=VARCHAR},
+      </if>
+      <if test="regTitle != null">
+        #{regTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="regDepartment != null">
+        #{regDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="punContent != null">
+        #{punContent,jdbcType=VARCHAR},
+      </if>
+      <if test="regState != null">
+        #{regState,jdbcType=INTEGER},
+      </if>
+      <if test="regSpare != null">
+        #{regSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.RegulationsExample" resultType="java.lang.Long">
+    select count(*) from regulations
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update regulations
+    <set>
+      <if test="record.regId != null">
+        reg_id = #{record.regId,jdbcType=INTEGER},
+      </if>
+      <if test="record.regContent != null">
+        reg_content = #{record.regContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regTitle != null">
+        reg_title = #{record.regTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regDepartment != null">
+        reg_department = #{record.regDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.punContent != null">
+        pun_content = #{record.punContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regState != null">
+        reg_state = #{record.regState,jdbcType=INTEGER},
+      </if>
+      <if test="record.regSpare != null">
+        reg_spare = #{record.regSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update regulations
+    set reg_id = #{record.regId,jdbcType=INTEGER},
+      reg_content = #{record.regContent,jdbcType=VARCHAR},
+      reg_title = #{record.regTitle,jdbcType=VARCHAR},
+      reg_department = #{record.regDepartment,jdbcType=VARCHAR},
+      pun_content = #{record.punContent,jdbcType=VARCHAR},
+      reg_state = #{record.regState,jdbcType=INTEGER},
+      reg_spare = #{record.regSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Regulations">
+    update regulations
+    <set>
+      <if test="regContent != null">
+        reg_content = #{regContent,jdbcType=VARCHAR},
+      </if>
+      <if test="regTitle != null">
+        reg_title = #{regTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="regDepartment != null">
+        reg_department = #{regDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="punContent != null">
+        pun_content = #{punContent,jdbcType=VARCHAR},
+      </if>
+      <if test="regState != null">
+        reg_state = #{regState,jdbcType=INTEGER},
+      </if>
+      <if test="regSpare != null">
+        reg_spare = #{regSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where reg_id = #{regId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Regulations">
+    update regulations
+    set reg_content = #{regContent,jdbcType=VARCHAR},
+      reg_title = #{regTitle,jdbcType=VARCHAR},
+      reg_department = #{regDepartment,jdbcType=VARCHAR},
+      pun_content = #{punContent,jdbcType=VARCHAR},
+      reg_state = #{regState,jdbcType=INTEGER},
+      reg_spare = #{regSpare,jdbcType=VARCHAR}
+    where reg_id = #{regId,jdbcType=INTEGER}
+  </update>
+</mapper>

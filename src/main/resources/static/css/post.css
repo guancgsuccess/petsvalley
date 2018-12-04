@@ -1,0 +1,387 @@
+/* Make the image fully responsive */
+.carousel-inner img {
+    width: 72%;
+    height: 230px;
+    margin: 0 auto;
+    text-align: center;
+    margin-left: 14%;
+}
+#logo{
+    width: 72%;
+    height: 100px;
+    /* background-color: #F2F4F7;*/
+    background-color: honeydew;
+    margin: 0 auto;
+
+}
+.logo{
+    position: absolute;
+    margin-left: 30px;
+    margin-top: -90px;
+    height: 170px;
+    width: 170px;
+    border: 5px solid #ffffff;
+}
+.logo_name{
+    position: absolute;
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 14px;
+    margin-left: 218px;
+}
+
+.logo_name {
+    font-weight: 600;
+    font-size: 28px;
+    font-family: "黑体";
+    color: #8c888b;
+    background: -webkit-linear-gradient(45deg, #70f7fe, #fbd7c6, #fdefac, #bfb5dd, #bed5f5);
+-moz-linear-gradient(45deg, #70f7fe, #fbd7c6, #fdefac, #bfb5dd, #bed5f5);
+-ms-linear-gradient(45deg, #70f7fe, #fbd7c6, #fdefac, #bfb5dd, #bed5f5);
+    color: transparent;
+    /*设置字体颜色透明*/
+    -webkit-background-clip: text;
+    /*背景裁剪为文本形式*/
+    animation: ran 10s linear infinite;
+    /*动态10s展示*/
+}
+@keyframes ran {
+    from {
+        backgroud-position: 0 0;
+    }
+    to {
+        background-position: 2000px 0;
+    }
+}
+.introduce{
+    margin-top:59px;
+    margin-left: 222px;
+    position: absolute;
+    font-size: 15px;
+    white-space: nowrap;
+
+    color: #4c4c4c;
+    max-width: 280px;
+    font-weight: bolder;
+}
+#focus{
+    width: 75px;
+    height: 31px;
+    margin-left: 330px;
+    margin-top: 19px;
+}
+#sign{
+    width: 220px;
+    height:56px;
+    border: 1px solid #ffffff;
+    margin-top: 20px;
+    float: right;
+}
+#sign1{
+    width: 110px;
+    height: 54px;
+    background-color: skyblue;
+}
+#sign2{
+    width:106px;
+    height: 52px;
+    position: relative;
+    margin-left: 110px;
+    margin-top: -52px;
+}
+#sign2{
+    background-color: #ffffff;
+}
+.sign1{
+    margin-left: 33px;
+    line-height: 52px;
+    font-size: 22px;
+    color: #ffffff;
+}
+.sign2{
+    margin-left: 10px;
+    position: absolute;
+    margin-top: 5px;
+    font-size: 14px;
+}
+.sign3{
+    margin-left: 12px;
+    position: absolute;
+    margin-top: 28px;
+    font-size: 13px;
+}
+
+ul,li{
+    list-style: none;
+}
+#cd{
+    height: 50px;
+    width: 72%;
+    background-color: darkgrey;
+    margin: 0 auto;
+}
+#cd ul{
+    margin-left: -40px;
+}
+#cd li{
+    height: 100%;
+    width: 90px ;
+    list-style: none;
+    display: inline-block;
+    line-height: 50px;
+    font-size: 18px;
+    text-align: center;
+    color: #000000;
+    margin-left: 0;
+}
+#cd ul li:hover{
+    background-color: #8c888b;
+}
+#top{
+    width: 100%;
+    height: 30px;
+    border-top: 1px solid #b6b6b6;
+    border-bottom: 1px solid darkgrey;
+}
+#top ul{
+    float: right;
+}
+#top li{
+    line-height: 30px;
+    font-size: 15px;
+    display: inline-block;
+    margin-right: 30px;
+}
+#search{
+    width: 55%;
+    height: 110px;
+    margin: 0 auto;
+}
+#search img{
+    margin-top: -8px;
+    margin-left: 20px;
+}
+#search input{
+    width: 65%;
+    height: 40px;
+    margin-top: 30px;
+    margin-left: 10px;
+    position: relative;
+}
+.search{
+    height: 40px;
+    width: 80px;
+    background-color: blue;
+    line-height: 40px;
+    display: block;
+    position: relative;
+    text-align: center;
+    font-size: 18px;
+    color: #ffffff;
+    margin-top: -51px;
+    margin-left: 580px;
+}
+#post{
+    width:72%;
+    height:auto;
+    margin: 0 auto;
+    border-left: 1px solid darkgrey;
+    border-right: 1px solid darkgrey;
+    background-color: #ffffff;
+}
+.post{
+    width:78%;
+    height:auto;
+    border-right: 1px solid darkgrey;
+    position: relative;
+    /*border-top: 1px dashed darkgrey;*/
+    border-bottom: 1px dashed darkgrey;
+}
+.number{
+    height: 45px;
+    width: 10%;
+
+    display: inline-block;
+}
+.content{
+    width:85%;
+    height: auto;
+
+    display: inline-block;
+    position: relative;
+    margin-left: 10%;
+    margin-top: -50px;
+}
+.title{
+    margin-top: 18px;
+
+}
+.title-content{
+    color: #2d64b3;
+    font-size: 15px;
+    margin-left: 20px;
+    display: inline-block;
+    width: 460px;
+}
+.bor{
+    height: 31px;
+    width: 53px;
+    margin-top: 10px;
+    margin-left: 13px;
+}
+.count{
+    margin-left: -35px;
+    margin-top:11px;
+    position: absolute;
+    font-size: 14px;
+}
+.customer{
+    margin-left: 20px;
+    color: red;
+    font-size: 14px;
+}
+.customer-img{
+    width: 23px;
+    height: 23px;
+    margin-top: -3px;
+}
+.context{
+    margin-top: 15px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    margin-left: 20px;
+}
+.images{
+    margin-left: 15px;
+}
+.msg{
+    height: 100px;
+    width: 100px;
+    margin-bottom: 15px;
+    padding-left: 5px;
+}
+
+#right{
+    height: auto;
+    width: 22%;
+    float: right;
+}
+
+#right-top ul{
+    margin-left: 65px;
+    margin-top: -78px;
+
+}
+#right-top ul li{
+    margin-top: 8px;
+    font-size: 13px;
+}
+#right-top ul li img{
+    width: 20px;
+    height: 20px;
+    text-align: center;
+}
+
+#center{
+    border-bottom: 1px solid darkgrey;
+}
+.mypost{
+    display: block;
+    margin-top: 20px;
+    font-size: 14px;
+    margin-left: 19px;
+}
+.myHeadPhoto{
+    height: 80px;
+    width: 80px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+.center-ul{
+    margin-left: 65px;
+    margin-top: -80px;
+    margin-bottom: 30px;
+}
+.center-ul-span{
+    font-size: 13px;
+    margin-top: -10px;
+    margin-left: 9px;
+    color: blue;
+}
+.center-ul-li{
+    margin-top: 30px;
+    font-size: 13px;
+    margin-left: 9px;
+}
+
+.list{
+    font-size: 13px;
+    margin-top: 15px;
+
+}
+
+#bottom ul li{
+    display: inline;
+    margin-left: -20px;
+}
+#bottom ul{
+    margin-top: 15px;
+}
+#list{
+    display: block;
+    margin-top: 20px;
+    font-size: 15px;
+    margin-left: 19px;
+}
+.rank{
+    height: 16px;width: 14px;
+    background-color: chocolate;
+    text-align:center;
+    display: inline-block;
+    margin-top: 2px;
+    position: absolute
+}
+.rank-span{
+    margin-top: -3px;
+    position: absolute;
+    margin-left: -4px;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+
+.rank1{
+    height: 16px;
+    width: 14px;
+    text-align:center;
+    display: inline-block;
+    margin-top: 2px;
+    position: absolute;
+    margin-left: 5px;
+}
+.rang2 {
+    margin-top: -3px;
+    position: absolute;
+    margin-left: -4px;
+    font-size: 14px;
+    color: darkgrey;
+}
+
+.likes{
+    float: right;
+    margin-top: -25px;
+}
+.likes img{
+    width: 25px;
+    height: 25px;
+    margin-top: -5px;
+}
+.like-count{
+    display: inline-block;
+
+}
+
+
+
+

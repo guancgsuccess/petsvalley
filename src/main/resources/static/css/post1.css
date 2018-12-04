@@ -1,0 +1,137 @@
+a{
+    text-decoration: none;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+ul,li{
+    list-style: none;
+}
+#cd{
+    height: 50px;
+    width: 75%;
+    background-color: darkgrey;
+    margin: 0 auto;
+}
+#cd li{
+    height: 100%;
+    width: 90px ;
+    list-style: none;
+    display: inline-block;
+    line-height: 50px;
+    font-size: 18px;
+    text-align: center;
+    color: #000000;
+}
+#cd ul li:hover{
+    background-color: forestgreen;
+}
+
+#left{
+    width: 16%;
+    background-color: lightskyblue;
+    height:333px;
+}
+.post{
+    width: 75%;
+    height: auto;
+    border: 1px solid darkgrey;
+    margin: 0 auto;
+    position: relative;
+
+
+}
+.post:hover{
+    background-color: whitesmoke;
+}
+ .title{
+     margin-left: 100px;
+     font-size: 15px;
+     color:cornflowerblue ;
+ }
+
+ .customer{
+     display: block;
+     margin-left: 80%;
+     color: red;
+     top: -20px;
+     font-size: 17px;
+ }
+.customer img{
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+}
+ .content{
+     display: block;
+     margin-left:100px;
+     margin-top: 20px;
+ }
+ .images{
+     margin-left: 97px;
+ }
+
+ .images>img{
+     width:100px;
+     height: 100px;
+     margin-top: 10px;
+     padding-left: 3px;
+ }
+ #page{
+     margin-left: 17%;
+     margin-top: 30px;
+ }
+ #page #pages{
+     width: 45px;
+     height: 23px;
+     margin-top: -3px;
+ }
+
+
+.logo_name{
+    position: absolute;
+    color: red;
+    font-size: 19px;
+    font-weight: bold;
+    margin-top: 35px;
+    margin-left: 8px;
+}
+
+.logo_name {
+    font-weight: 600;
+    font-size: 28px;
+    font-family: "黑体";
+    color: #8c888b;
+    background: -webkit-linear-gradient(45deg, #70f7fe, #fbd7c6, #fdefac, #bfb5dd, #bed5f5);
+-moz-linear-gradient(45deg, #70f7fe, #fbd7c6, #fdefac, #bfb5dd, #bed5f5);
+-ms-linear-gradient(45deg, #70f7fe, #fbd7c6, #fdefac, #bfb5dd, #bed5f5);
+    color: transparent;
+    /*设置字体颜色透明*/
+    -webkit-background-clip: text;
+    /*背景裁剪为文本形式*/
+    animation: ran 10s linear infinite;
+    /*动态10s展示*/
+}
+
+@keyframes ran {
+    from {
+        backgroud-position: 0 0;
+    }
+    to {
+        background-position: 2000px 0;
+    }
+}
+
+.logo-bar{
+    background-image: url("static/images/vc.jpg");
+    border: 1px solid red;
+    background-size:100%;
+}
+
+
+
+
+
+

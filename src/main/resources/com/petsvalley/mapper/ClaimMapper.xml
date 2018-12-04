@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.ClaimMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Claim">
+    <id column="claim_id" jdbcType="INTEGER" property="claimId" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="claim_time" jdbcType="TIMESTAMP" property="claimTime" />
+    <result column="claim_place" jdbcType="VARCHAR" property="claimPlace" />
+    <result column="claim_message" jdbcType="VARCHAR" property="claimMessage" />
+    <result column="claim_photo" jdbcType="VARCHAR" property="claimPhoto" />
+    <result column="claim_phone" jdbcType="VARCHAR" property="claimPhone" />
+    <result column="claim_state" jdbcType="INTEGER" property="claimState" />
+    <result column="claim_spare" jdbcType="VARCHAR" property="claimSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    claim_id, cust_id, claim_time, claim_place, claim_message, claim_photo, claim_phone, 
+    claim_state, claim_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.ClaimExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from claim
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from claim
+    where claim_id = #{claimId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from claim
+    where claim_id = #{claimId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.ClaimExample">
+    delete from claim
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Claim">
+    insert into claim (claim_id, cust_id, claim_time, 
+      claim_place, claim_message, claim_photo, 
+      claim_phone, claim_state, claim_spare
+      )
+    values (#{claimId,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{claimTime,jdbcType=TIMESTAMP}, 
+      #{claimPlace,jdbcType=VARCHAR}, #{claimMessage,jdbcType=VARCHAR}, #{claimPhoto,jdbcType=VARCHAR}, 
+      #{claimPhone,jdbcType=VARCHAR}, #{claimState,jdbcType=INTEGER}, #{claimSpare,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Claim">
+    insert into claim
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="claimId != null">
+        claim_id,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="claimTime != null">
+        claim_time,
+      </if>
+      <if test="claimPlace != null">
+        claim_place,
+      </if>
+      <if test="claimMessage != null">
+        claim_message,
+      </if>
+      <if test="claimPhoto != null">
+        claim_photo,
+      </if>
+      <if test="claimPhone != null">
+        claim_phone,
+      </if>
+      <if test="claimState != null">
+        claim_state,
+      </if>
+      <if test="claimSpare != null">
+        claim_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="claimId != null">
+        #{claimId,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="claimTime != null">
+        #{claimTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="claimPlace != null">
+        #{claimPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="claimMessage != null">
+        #{claimMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="claimPhoto != null">
+        #{claimPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="claimPhone != null">
+        #{claimPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="claimState != null">
+        #{claimState,jdbcType=INTEGER},
+      </if>
+      <if test="claimSpare != null">
+        #{claimSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.ClaimExample" resultType="java.lang.Long">
+    select count(*) from claim
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update claim
+    <set>
+      <if test="record.claimId != null">
+        claim_id = #{record.claimId,jdbcType=INTEGER},
+      </if>
+      <if test="record.custId != null">
+        cust_id = #{record.custId,jdbcType=INTEGER},
+      </if>
+      <if test="record.claimTime != null">
+        claim_time = #{record.claimTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.claimPlace != null">
+        claim_place = #{record.claimPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.claimMessage != null">
+        claim_message = #{record.claimMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.claimPhoto != null">
+        claim_photo = #{record.claimPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.claimPhone != null">
+        claim_phone = #{record.claimPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.claimState != null">
+        claim_state = #{record.claimState,jdbcType=INTEGER},
+      </if>
+      <if test="record.claimSpare != null">
+        claim_spare = #{record.claimSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update claim
+    set claim_id = #{record.claimId,jdbcType=INTEGER},
+      cust_id = #{record.custId,jdbcType=INTEGER},
+      claim_time = #{record.claimTime,jdbcType=TIMESTAMP},
+      claim_place = #{record.claimPlace,jdbcType=VARCHAR},
+      claim_message = #{record.claimMessage,jdbcType=VARCHAR},
+      claim_photo = #{record.claimPhoto,jdbcType=VARCHAR},
+      claim_phone = #{record.claimPhone,jdbcType=VARCHAR},
+      claim_state = #{record.claimState,jdbcType=INTEGER},
+      claim_spare = #{record.claimSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Claim">
+    update claim
+    <set>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="claimTime != null">
+        claim_time = #{claimTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="claimPlace != null">
+        claim_place = #{claimPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="claimMessage != null">
+        claim_message = #{claimMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="claimPhoto != null">
+        claim_photo = #{claimPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="claimPhone != null">
+        claim_phone = #{claimPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="claimState != null">
+        claim_state = #{claimState,jdbcType=INTEGER},
+      </if>
+      <if test="claimSpare != null">
+        claim_spare = #{claimSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where claim_id = #{claimId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Claim">
+    update claim
+    set cust_id = #{custId,jdbcType=INTEGER},
+      claim_time = #{claimTime,jdbcType=TIMESTAMP},
+      claim_place = #{claimPlace,jdbcType=VARCHAR},
+      claim_message = #{claimMessage,jdbcType=VARCHAR},
+      claim_photo = #{claimPhoto,jdbcType=VARCHAR},
+      claim_phone = #{claimPhone,jdbcType=VARCHAR},
+      claim_state = #{claimState,jdbcType=INTEGER},
+      claim_spare = #{claimSpare,jdbcType=VARCHAR}
+    where claim_id = #{claimId,jdbcType=INTEGER}
+  </update>
+  <select id="selectCountByState" resultType="java.lang.Integer">
+    select
+    count(claim_id)
+    from claim
+    <where>
+      <if test="claimState!=null">
+        claim_state=#{claimState}
+      </if>
+    </where>
+  </select>
+  <select id="selectClaimList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from claim
+    <where>
+      <if test="arg1!=null">
+        claim_state=#{arg1}
+      </if>
+    </where>
+    limit #{arg0.startRecord},#{arg0.pageSize}
+  </select>
+  <select id="selectClaimByCustId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from claim
+    where cust_id=#{custId}
+  </select>
+  <select id="selectAllClaim" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from claim
+  </select>
+</mapper>

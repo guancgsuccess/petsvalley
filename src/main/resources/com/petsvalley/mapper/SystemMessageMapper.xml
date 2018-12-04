@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.SystemMessageMapper">
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.SystemMessage">
+    <id column="system_message_id" jdbcType="INTEGER" property="systemMessageId" />
+    <result column="system_message_statue" jdbcType="INTEGER" property="systemMessageStatue" />
+    <result column="system_message_title" jdbcType="VARCHAR" property="systemMessageTitle" />
+    <result column="system_message_content" jdbcType="VARCHAR" property="systemMessageContent" />
+    <result column="system_message_time" jdbcType="TIMESTAMP" property="systemMessageTime" />
+    <result column="system_message_spare" jdbcType="VARCHAR" property="systemMessageSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    system_message_id, system_message_statue, system_message_title, system_message_content, 
+    system_message_time, system_message_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.SystemMessageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from system_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from system_message
+    where system_message_id = #{systemMessageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from system_message
+    where system_message_id = #{systemMessageId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.SystemMessageExample">
+    delete from system_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.SystemMessage">
+    insert into system_message (system_message_id, system_message_statue, 
+      system_message_title, system_message_content, 
+      system_message_time, system_message_spare
+      )
+    values (#{systemMessageId,jdbcType=INTEGER}, #{systemMessageStatue,jdbcType=INTEGER}, 
+      #{systemMessageTitle,jdbcType=VARCHAR}, #{systemMessageContent,jdbcType=VARCHAR}, 
+      #{systemMessageTime,jdbcType=TIMESTAMP}, #{systemMessageSpare,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.SystemMessage">
+    insert into system_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="systemMessageId != null">
+        system_message_id,
+      </if>
+      <if test="systemMessageStatue != null">
+        system_message_statue,
+      </if>
+      <if test="systemMessageTitle != null">
+        system_message_title,
+      </if>
+      <if test="systemMessageContent != null">
+        system_message_content,
+      </if>
+      <if test="systemMessageTime != null">
+        system_message_time,
+      </if>
+      <if test="systemMessageSpare != null">
+        system_message_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="systemMessageId != null">
+        #{systemMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="systemMessageStatue != null">
+        #{systemMessageStatue,jdbcType=INTEGER},
+      </if>
+      <if test="systemMessageTitle != null">
+        #{systemMessageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="systemMessageContent != null">
+        #{systemMessageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="systemMessageTime != null">
+        #{systemMessageTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="systemMessageSpare != null">
+        #{systemMessageSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.SystemMessageExample" resultType="java.lang.Long">
+    select count(*) from system_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update system_message
+    <set>
+      <if test="record.systemMessageId != null">
+        system_message_id = #{record.systemMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="record.systemMessageStatue != null">
+        system_message_statue = #{record.systemMessageStatue,jdbcType=INTEGER},
+      </if>
+      <if test="record.systemMessageTitle != null">
+        system_message_title = #{record.systemMessageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.systemMessageContent != null">
+        system_message_content = #{record.systemMessageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.systemMessageTime != null">
+        system_message_time = #{record.systemMessageTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.systemMessageSpare != null">
+        system_message_spare = #{record.systemMessageSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update system_message
+    set system_message_id = #{record.systemMessageId,jdbcType=INTEGER},
+      system_message_statue = #{record.systemMessageStatue,jdbcType=INTEGER},
+      system_message_title = #{record.systemMessageTitle,jdbcType=VARCHAR},
+      system_message_content = #{record.systemMessageContent,jdbcType=VARCHAR},
+      system_message_time = #{record.systemMessageTime,jdbcType=TIMESTAMP},
+      system_message_spare = #{record.systemMessageSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.SystemMessage">
+    update system_message
+    <set>
+      <if test="systemMessageStatue != null">
+        system_message_statue = #{systemMessageStatue,jdbcType=INTEGER},
+      </if>
+      <if test="systemMessageTitle != null">
+        system_message_title = #{systemMessageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="systemMessageContent != null">
+        system_message_content = #{systemMessageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="systemMessageTime != null">
+        system_message_time = #{systemMessageTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="systemMessageSpare != null">
+        system_message_spare = #{systemMessageSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where system_message_id = #{systemMessageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.SystemMessage">
+    update system_message
+    set system_message_statue = #{systemMessageStatue,jdbcType=INTEGER},
+      system_message_title = #{systemMessageTitle,jdbcType=VARCHAR},
+      system_message_content = #{systemMessageContent,jdbcType=VARCHAR},
+      system_message_time = #{systemMessageTime,jdbcType=TIMESTAMP},
+      system_message_spare = #{systemMessageSpare,jdbcType=VARCHAR}
+    where system_message_id = #{systemMessageId,jdbcType=INTEGER}
+  </update>
+</mapper>

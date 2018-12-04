@@ -1,0 +1,11 @@
+#container .container{
+    margin: auto;
+}
+
+.lead{
+    display: inline-block;
+}
+.text{
+    display: inline-block;
+    color: #E89E1A;
+}

@@ -1,0 +1,33 @@
+.info  li{
+    display: block;
+    text-decoration: none;
+    width:100%;
+    text-align: left;
+    margin-top: 40px;
+}
+.info .show .inline{
+    color: gray;
+    font-size: 12px;
+    margin-top: 0;
+    margin-left: 31px;
+}
+
+.info .button li a{
+    border: 1px solid grey;
+    margin-top: 12px;
+}
+.info .show{
+    float: left;
+}
+.info .button{
+    float: right;
+}
+.clumn1 .panel-group{
+    text-align: center;
+    vertical-align: bottom;
+}
+.clearfix{
+    margin-top:20px ;
+    margin-bottom: 20px;
+}
+

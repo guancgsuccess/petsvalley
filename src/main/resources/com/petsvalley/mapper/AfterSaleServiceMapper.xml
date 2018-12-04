@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.AfterSaleServiceMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.AfterSaleService">
+    <id column="ass_id" jdbcType="INTEGER" property="assId" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="ass_details" jdbcType="VARCHAR" property="assDetails" />
+    <result column="ass_state" jdbcType="INTEGER" property="assState" />
+    <result column="ass_evaluate" jdbcType="VARCHAR" property="assEvaluate" />
+    <result column="ass_spare" jdbcType="VARCHAR" property="assSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ass_id, cust_id, ass_details, ass_state, ass_evaluate, ass_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.AfterSaleServiceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from after_sale_service
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from after_sale_service
+    where ass_id = #{assId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from after_sale_service
+    where ass_id = #{assId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.AfterSaleServiceExample">
+    delete from after_sale_service
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.AfterSaleService">
+    insert into after_sale_service (ass_id, cust_id, ass_details, 
+      ass_state, ass_evaluate, ass_spare
+      )
+    values (#{assId,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{assDetails,jdbcType=VARCHAR}, 
+      #{assState,jdbcType=INTEGER}, #{assEvaluate,jdbcType=VARCHAR}, #{assSpare,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.AfterSaleService">
+    insert into after_sale_service
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="assId != null">
+        ass_id,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="assDetails != null">
+        ass_details,
+      </if>
+      <if test="assState != null">
+        ass_state,
+      </if>
+      <if test="assEvaluate != null">
+        ass_evaluate,
+      </if>
+      <if test="assSpare != null">
+        ass_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="assId != null">
+        #{assId,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="assDetails != null">
+        #{assDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="assState != null">
+        #{assState,jdbcType=INTEGER},
+      </if>
+      <if test="assEvaluate != null">
+        #{assEvaluate,jdbcType=VARCHAR},
+      </if>
+      <if test="assSpare != null">
+        #{assSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.AfterSaleServiceExample" resultType="java.lang.Long">
+    select count(*) from after_sale_service
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update after_sale_service
+    <set>
+      <if test="record.assId != null">
+        ass_id = #{record.assId,jdbcType=INTEGER},
+      </if>
+      <if test="record.custId != null">
+        cust_id = #{record.custId,jdbcType=INTEGER},
+      </if>
+      <if test="record.assDetails != null">
+        ass_details = #{record.assDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assState != null">
+        ass_state = #{record.assState,jdbcType=INTEGER},
+      </if>
+      <if test="record.assEvaluate != null">
+        ass_evaluate = #{record.assEvaluate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assSpare != null">
+        ass_spare = #{record.assSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update after_sale_service
+    set ass_id = #{record.assId,jdbcType=INTEGER},
+      cust_id = #{record.custId,jdbcType=INTEGER},
+      ass_details = #{record.assDetails,jdbcType=VARCHAR},
+      ass_state = #{record.assState,jdbcType=INTEGER},
+      ass_evaluate = #{record.assEvaluate,jdbcType=VARCHAR},
+      ass_spare = #{record.assSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.AfterSaleService">
+    update after_sale_service
+    <set>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="assDetails != null">
+        ass_details = #{assDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="assState != null">
+        ass_state = #{assState,jdbcType=INTEGER},
+      </if>
+      <if test="assEvaluate != null">
+        ass_evaluate = #{assEvaluate,jdbcType=VARCHAR},
+      </if>
+      <if test="assSpare != null">
+        ass_spare = #{assSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ass_id = #{assId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.AfterSaleService">
+    update after_sale_service
+    set cust_id = #{custId,jdbcType=INTEGER},
+      ass_details = #{assDetails,jdbcType=VARCHAR},
+      ass_state = #{assState,jdbcType=INTEGER},
+      ass_evaluate = #{assEvaluate,jdbcType=VARCHAR},
+      ass_spare = #{assSpare,jdbcType=VARCHAR}
+    where ass_id = #{assId,jdbcType=INTEGER}
+  </update>
+</mapper>

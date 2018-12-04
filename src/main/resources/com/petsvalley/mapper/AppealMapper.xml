@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.AppealMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Appeal">
+    <id column="apl_id" jdbcType="INTEGER" property="aplId" />
+    <result column="apl_time" jdbcType="TIMESTAMP" property="aplTime" />
+    <result column="pun_id" jdbcType="INTEGER" property="punId" />
+    <result column="apl_result" jdbcType="VARCHAR" property="aplResult" />
+    <result column="result_time" jdbcType="TIMESTAMP" property="resultTime" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="apl_state" jdbcType="INTEGER" property="aplState" />
+    <result column="appeal_spare" jdbcType="VARCHAR" property="appealSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    apl_id, apl_time, pun_id, apl_result, result_time, cust_id, apl_state, appeal_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.AppealExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from appeal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from appeal
+    where apl_id = #{aplId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from appeal
+    where apl_id = #{aplId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.AppealExample">
+    delete from appeal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Appeal">
+    insert into appeal (apl_id, apl_time, pun_id, 
+      apl_result, result_time, cust_id, 
+      apl_state, appeal_spare)
+    values (#{aplId,jdbcType=INTEGER}, #{aplTime,jdbcType=TIMESTAMP}, #{punId,jdbcType=INTEGER}, 
+      #{aplResult,jdbcType=VARCHAR}, #{resultTime,jdbcType=TIMESTAMP}, #{custId,jdbcType=INTEGER}, 
+      #{aplState,jdbcType=INTEGER}, #{appealSpare,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Appeal">
+    insert into appeal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="aplId != null">
+        apl_id,
+      </if>
+      <if test="aplTime != null">
+        apl_time,
+      </if>
+      <if test="punId != null">
+        pun_id,
+      </if>
+      <if test="aplResult != null">
+        apl_result,
+      </if>
+      <if test="resultTime != null">
+        result_time,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="aplState != null">
+        apl_state,
+      </if>
+      <if test="appealSpare != null">
+        appeal_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="aplId != null">
+        #{aplId,jdbcType=INTEGER},
+      </if>
+      <if test="aplTime != null">
+        #{aplTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="punId != null">
+        #{punId,jdbcType=INTEGER},
+      </if>
+      <if test="aplResult != null">
+        #{aplResult,jdbcType=VARCHAR},
+      </if>
+      <if test="resultTime != null">
+        #{resultTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="aplState != null">
+        #{aplState,jdbcType=INTEGER},
+      </if>
+      <if test="appealSpare != null">
+        #{appealSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.AppealExample" resultType="java.lang.Long">
+    select count(*) from appeal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update appeal
+    <set>
+      <if test="record.aplId != null">
+        apl_id = #{record.aplId,jdbcType=INTEGER},
+      </if>
+      <if test="record.aplTime != null">
+        apl_time = #{record.aplTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.punId != null">
+        pun_id = #{record.punId,jdbcType=INTEGER},
+      </if>
+      <if test="record.aplResult != null">
+        apl_result = #{record.aplResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultTime != null">
+        result_time = #{record.resultTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.custId != null">
+        cust_id = #{record.custId,jdbcType=INTEGER},
+      </if>
+      <if test="record.aplState != null">
+        apl_state = #{record.aplState,jdbcType=INTEGER},
+      </if>
+      <if test="record.appealSpare != null">
+        appeal_spare = #{record.appealSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update appeal
+    set apl_id = #{record.aplId,jdbcType=INTEGER},
+      apl_time = #{record.aplTime,jdbcType=TIMESTAMP},
+      pun_id = #{record.punId,jdbcType=INTEGER},
+      apl_result = #{record.aplResult,jdbcType=VARCHAR},
+      result_time = #{record.resultTime,jdbcType=TIMESTAMP},
+      cust_id = #{record.custId,jdbcType=INTEGER},
+      apl_state = #{record.aplState,jdbcType=INTEGER},
+      appeal_spare = #{record.appealSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Appeal">
+    update appeal
+    <set>
+      <if test="aplTime != null">
+        apl_time = #{aplTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="punId != null">
+        pun_id = #{punId,jdbcType=INTEGER},
+      </if>
+      <if test="aplResult != null">
+        apl_result = #{aplResult,jdbcType=VARCHAR},
+      </if>
+      <if test="resultTime != null">
+        result_time = #{resultTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="aplState != null">
+        apl_state = #{aplState,jdbcType=INTEGER},
+      </if>
+      <if test="appealSpare != null">
+        appeal_spare = #{appealSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where apl_id = #{aplId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Appeal">
+    update appeal
+    set apl_time = #{aplTime,jdbcType=TIMESTAMP},
+      pun_id = #{punId,jdbcType=INTEGER},
+      apl_result = #{aplResult,jdbcType=VARCHAR},
+      result_time = #{resultTime,jdbcType=TIMESTAMP},
+      cust_id = #{custId,jdbcType=INTEGER},
+      apl_state = #{aplState,jdbcType=INTEGER},
+      appeal_spare = #{appealSpare,jdbcType=VARCHAR}
+    where apl_id = #{aplId,jdbcType=INTEGER}
+  </update>
+</mapper>

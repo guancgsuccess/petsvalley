@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.CustomerMapper">
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Customer">
+    <id column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="cust_name" jdbcType="VARCHAR" property="custName" />
+    <result column="cust_pwd" jdbcType="VARCHAR" property="custPwd" />
+    <result column="cust_age" jdbcType="INTEGER" property="custAge" />
+    <result column="cust_phone" jdbcType="VARCHAR" property="custPhone" />
+    <result column="cus_gender" jdbcType="INTEGER" property="cusGender" />
+    <result column="cust_email" jdbcType="VARCHAR" property="custEmail" />
+    <result column="cust_create_time" jdbcType="DATE" property="custCreateTime" />
+    <result column="head_photo" jdbcType="VARCHAR" property="headPhoto" />
+    <result column="cust_integral" jdbcType="INTEGER" property="custIntegral" />
+    <result column="cust_role" jdbcType="INTEGER" property="custRole" />
+    <result column="cust_state" jdbcType="INTEGER" property="custState" />
+    <result column="cust_spare" jdbcType="VARCHAR" property="custSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    cust_id, cust_name, cust_pwd, cust_age, cust_phone, cus_gender, cust_email, cust_create_time, 
+    head_photo, cust_integral, cust_role, cust_state, cust_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.CustomerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from customer
+    where cust_id = #{custId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer
+    where cust_id = #{custId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.CustomerExample">
+    delete from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Customer">
+    insert into customer (cust_id, cust_name, cust_pwd, 
+      cust_age, cust_phone, cus_gender, 
+      cust_email, cust_create_time, head_photo, 
+      cust_integral, cust_role, cust_state, 
+      cust_spare)
+    values (#{custId,jdbcType=INTEGER}, #{custName,jdbcType=VARCHAR}, #{custPwd,jdbcType=VARCHAR}, 
+      #{custAge,jdbcType=INTEGER}, #{custPhone,jdbcType=VARCHAR}, #{cusGender,jdbcType=INTEGER}, 
+      #{custEmail,jdbcType=VARCHAR}, #{custCreateTime,jdbcType=DATE}, #{headPhoto,jdbcType=VARCHAR}, 
+      #{custIntegral,jdbcType=INTEGER}, #{custRole,jdbcType=INTEGER}, #{custState,jdbcType=INTEGER}, 
+      #{custSpare,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Customer">
+    insert into customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="custName != null">
+        cust_name,
+      </if>
+      <if test="custPwd != null">
+        cust_pwd,
+      </if>
+      <if test="custAge != null">
+        cust_age,
+      </if>
+      <if test="custPhone != null">
+        cust_phone,
+      </if>
+      <if test="cusGender != null">
+        cus_gender,
+      </if>
+      <if test="custEmail != null">
+        cust_email,
+      </if>
+      <if test="custCreateTime != null">
+        cust_create_time,
+      </if>
+      <if test="headPhoto != null">
+        head_photo,
+      </if>
+      <if test="custIntegral != null">
+        cust_integral,
+      </if>
+      <if test="custRole != null">
+        cust_role,
+      </if>
+      <if test="custState != null">
+        cust_state,
+      </if>
+      <if test="custSpare != null">
+        cust_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="custName != null">
+        #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custPwd != null">
+        #{custPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="custAge != null">
+        #{custAge,jdbcType=INTEGER},
+      </if>
+      <if test="custPhone != null">
+        #{custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cusGender != null">
+        #{cusGender,jdbcType=INTEGER},
+      </if>
+      <if test="custEmail != null">
+        #{custEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="custCreateTime != null">
+        #{custCreateTime,jdbcType=DATE},
+      </if>
+      <if test="headPhoto != null">
+        #{headPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="custIntegral != null">
+        #{custIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="custRole != null">
+        #{custRole,jdbcType=INTEGER},
+      </if>
+      <if test="custState != null">
+        #{custState,jdbcType=INTEGER},
+      </if>
+      <if test="custSpare != null">
+        #{custSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.CustomerExample" resultType="java.lang.Long">
+    select count(*) from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update customer
+    <set>
+      <if test="record.custId != null">
+        cust_id = #{record.custId,jdbcType=INTEGER},
+      </if>
+      <if test="record.custName != null">
+        cust_name = #{record.custName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custPwd != null">
+        cust_pwd = #{record.custPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custAge != null">
+        cust_age = #{record.custAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.custPhone != null">
+        cust_phone = #{record.custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cusGender != null">
+        cus_gender = #{record.cusGender,jdbcType=INTEGER},
+      </if>
+      <if test="record.custEmail != null">
+        cust_email = #{record.custEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custCreateTime != null">
+        cust_create_time = #{record.custCreateTime,jdbcType=DATE},
+      </if>
+      <if test="record.headPhoto != null">
+        head_photo = #{record.headPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custIntegral != null">
+        cust_integral = #{record.custIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="record.custRole != null">
+        cust_role = #{record.custRole,jdbcType=INTEGER},
+      </if>
+      <if test="record.custState != null">
+        cust_state = #{record.custState,jdbcType=INTEGER},
+      </if>
+      <if test="record.custSpare != null">
+        cust_spare = #{record.custSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update customer
+    set cust_id = #{record.custId,jdbcType=INTEGER},
+      cust_name = #{record.custName,jdbcType=VARCHAR},
+      cust_pwd = #{record.custPwd,jdbcType=VARCHAR},
+      cust_age = #{record.custAge,jdbcType=INTEGER},
+      cust_phone = #{record.custPhone,jdbcType=VARCHAR},
+      cus_gender = #{record.cusGender,jdbcType=INTEGER},
+      cust_email = #{record.custEmail,jdbcType=VARCHAR},
+      cust_create_time = #{record.custCreateTime,jdbcType=DATE},
+      head_photo = #{record.headPhoto,jdbcType=VARCHAR},
+      cust_integral = #{record.custIntegral,jdbcType=INTEGER},
+      cust_role = #{record.custRole,jdbcType=INTEGER},
+      cust_state = #{record.custState,jdbcType=INTEGER},
+      cust_spare = #{record.custSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Customer">
+    update customer
+    <set>
+      <if test="custName != null">
+        cust_name = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custPwd != null">
+        cust_pwd = #{custPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="custAge != null">
+        cust_age = #{custAge,jdbcType=INTEGER},
+      </if>
+      <if test="custPhone != null">
+        cust_phone = #{custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cusGender != null">
+        cus_gender = #{cusGender,jdbcType=INTEGER},
+      </if>
+      <if test="custEmail != null">
+        cust_email = #{custEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="custCreateTime != null">
+        cust_create_time = #{custCreateTime,jdbcType=DATE},
+      </if>
+      <if test="headPhoto != null">
+        head_photo = #{headPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="custIntegral != null">
+        cust_integral = #{custIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="custRole != null">
+        cust_role = #{custRole,jdbcType=INTEGER},
+      </if>
+      <if test="custState != null">
+        cust_state = #{custState,jdbcType=INTEGER},
+      </if>
+      <if test="custSpare != null">
+        cust_spare = #{custSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cust_id = #{custId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Customer">
+    update customer
+    set cust_name = #{custName,jdbcType=VARCHAR},
+      cust_pwd = #{custPwd,jdbcType=VARCHAR},
+      cust_age = #{custAge,jdbcType=INTEGER},
+      cust_phone = #{custPhone,jdbcType=VARCHAR},
+      cus_gender = #{cusGender,jdbcType=INTEGER},
+      cust_email = #{custEmail,jdbcType=VARCHAR},
+      cust_create_time = #{custCreateTime,jdbcType=DATE},
+      head_photo = #{headPhoto,jdbcType=VARCHAR},
+      cust_integral = #{custIntegral,jdbcType=INTEGER},
+      cust_role = #{custRole,jdbcType=INTEGER},
+      cust_state = #{custState,jdbcType=INTEGER},
+      cust_spare = #{custSpare,jdbcType=VARCHAR}
+    where cust_id = #{custId,jdbcType=INTEGER}
+  </update>
+</mapper>

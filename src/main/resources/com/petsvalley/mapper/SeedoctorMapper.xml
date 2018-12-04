@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.SeedoctorMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Seedoctor">
+    <id column="doc_id" jdbcType="INTEGER" property="docId" />
+    <result column="doc_pet_id" jdbcType="INTEGER" property="docPetId" />
+    <result column="doc_time" jdbcType="TIMESTAMP" property="docTime" />
+    <result column="doc_loc" jdbcType="VARCHAR" property="docLoc" />
+    <result column="doc_detalis" jdbcType="VARCHAR" property="docDetalis" />
+    <result column="doc_state" jdbcType="INTEGER" property="docState" />
+    <result column="doc_spare" jdbcType="VARCHAR" property="docSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    doc_id, doc_pet_id, doc_time, doc_loc, doc_detalis, doc_state, doc_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.SeedoctorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from seedoctor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from seedoctor
+    where doc_id = #{docId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from seedoctor
+    where doc_id = #{docId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.SeedoctorExample">
+    delete from seedoctor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Seedoctor">
+    insert into seedoctor (doc_id, doc_pet_id, doc_time, 
+      doc_loc, doc_detalis, doc_state, 
+      doc_spare)
+    values (#{docId,jdbcType=INTEGER}, #{docPetId,jdbcType=INTEGER}, #{docTime,jdbcType=TIMESTAMP}, 
+      #{docLoc,jdbcType=VARCHAR}, #{docDetalis,jdbcType=VARCHAR}, #{docState,jdbcType=INTEGER}, 
+      #{docSpare,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Seedoctor">
+    insert into seedoctor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="docId != null">
+        doc_id,
+      </if>
+      <if test="docPetId != null">
+        doc_pet_id,
+      </if>
+      <if test="docTime != null">
+        doc_time,
+      </if>
+      <if test="docLoc != null">
+        doc_loc,
+      </if>
+      <if test="docDetalis != null">
+        doc_detalis,
+      </if>
+      <if test="docState != null">
+        doc_state,
+      </if>
+      <if test="docSpare != null">
+        doc_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="docId != null">
+        #{docId,jdbcType=INTEGER},
+      </if>
+      <if test="docPetId != null">
+        #{docPetId,jdbcType=INTEGER},
+      </if>
+      <if test="docTime != null">
+        #{docTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="docLoc != null">
+        #{docLoc,jdbcType=VARCHAR},
+      </if>
+      <if test="docDetalis != null">
+        #{docDetalis,jdbcType=VARCHAR},
+      </if>
+      <if test="docState != null">
+        #{docState,jdbcType=INTEGER},
+      </if>
+      <if test="docSpare != null">
+        #{docSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.SeedoctorExample" resultType="java.lang.Long">
+    select count(*) from seedoctor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update seedoctor
+    <set>
+      <if test="record.docId != null">
+        doc_id = #{record.docId,jdbcType=INTEGER},
+      </if>
+      <if test="record.docPetId != null">
+        doc_pet_id = #{record.docPetId,jdbcType=INTEGER},
+      </if>
+      <if test="record.docTime != null">
+        doc_time = #{record.docTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.docLoc != null">
+        doc_loc = #{record.docLoc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docDetalis != null">
+        doc_detalis = #{record.docDetalis,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docState != null">
+        doc_state = #{record.docState,jdbcType=INTEGER},
+      </if>
+      <if test="record.docSpare != null">
+        doc_spare = #{record.docSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update seedoctor
+    set doc_id = #{record.docId,jdbcType=INTEGER},
+      doc_pet_id = #{record.docPetId,jdbcType=INTEGER},
+      doc_time = #{record.docTime,jdbcType=TIMESTAMP},
+      doc_loc = #{record.docLoc,jdbcType=VARCHAR},
+      doc_detalis = #{record.docDetalis,jdbcType=VARCHAR},
+      doc_state = #{record.docState,jdbcType=INTEGER},
+      doc_spare = #{record.docSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Seedoctor">
+    update seedoctor
+    <set>
+      <if test="docPetId != null">
+        doc_pet_id = #{docPetId,jdbcType=INTEGER},
+      </if>
+      <if test="docTime != null">
+        doc_time = #{docTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="docLoc != null">
+        doc_loc = #{docLoc,jdbcType=VARCHAR},
+      </if>
+      <if test="docDetalis != null">
+        doc_detalis = #{docDetalis,jdbcType=VARCHAR},
+      </if>
+      <if test="docState != null">
+        doc_state = #{docState,jdbcType=INTEGER},
+      </if>
+      <if test="docSpare != null">
+        doc_spare = #{docSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where doc_id = #{docId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Seedoctor">
+    update seedoctor
+    set doc_pet_id = #{docPetId,jdbcType=INTEGER},
+      doc_time = #{docTime,jdbcType=TIMESTAMP},
+      doc_loc = #{docLoc,jdbcType=VARCHAR},
+      doc_detalis = #{docDetalis,jdbcType=VARCHAR},
+      doc_state = #{docState,jdbcType=INTEGER},
+      doc_spare = #{docSpare,jdbcType=VARCHAR}
+    where doc_id = #{docId,jdbcType=INTEGER}
+  </update>
+</mapper>

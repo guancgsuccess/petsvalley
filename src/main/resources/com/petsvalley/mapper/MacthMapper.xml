@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.MacthMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Macth">
+    <id column="mac_id" jdbcType="INTEGER" property="macId" />
+    <result column="pet_id" jdbcType="INTEGER" property="petId" />
+    <result column="couple_pet_id" jdbcType="INTEGER" property="couplePetId" />
+    <result column="partner_pet_id" jdbcType="INTEGER" property="partnerPetId" />
+    <result column="couple_cust_id" jdbcType="INTEGER" property="coupleCustId" />
+    <result column="partner_cust_id" jdbcType="INTEGER" property="partnerCustId" />
+    <result column="couple_mac_state" jdbcType="INTEGER" property="coupleMacState" />
+    <result column="partner_mac_state" jdbcType="INTEGER" property="partnerMacState" />
+    <result column="macth_spare" jdbcType="VARCHAR" property="macthSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    mac_id, pet_id, couple_pet_id, partner_pet_id, couple_cust_id, partner_cust_id, couple_mac_state, 
+    partner_mac_state, macth_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.MacthExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from macth
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from macth
+    where mac_id = #{macId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from macth
+    where mac_id = #{macId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.MacthExample">
+    delete from macth
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Macth">
+    insert into macth (mac_id, pet_id, couple_pet_id, 
+      partner_pet_id, couple_cust_id, partner_cust_id, 
+      couple_mac_state, partner_mac_state, macth_spare
+      )
+    values (#{macId,jdbcType=INTEGER}, #{petId,jdbcType=INTEGER}, #{couplePetId,jdbcType=INTEGER}, 
+      #{partnerPetId,jdbcType=INTEGER}, #{coupleCustId,jdbcType=INTEGER}, #{partnerCustId,jdbcType=INTEGER}, 
+      #{coupleMacState,jdbcType=INTEGER}, #{partnerMacState,jdbcType=INTEGER}, #{macthSpare,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Macth">
+    insert into macth
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="macId != null">
+        mac_id,
+      </if>
+      <if test="petId != null">
+        pet_id,
+      </if>
+      <if test="couplePetId != null">
+        couple_pet_id,
+      </if>
+      <if test="partnerPetId != null">
+        partner_pet_id,
+      </if>
+      <if test="coupleCustId != null">
+        couple_cust_id,
+      </if>
+      <if test="partnerCustId != null">
+        partner_cust_id,
+      </if>
+      <if test="coupleMacState != null">
+        couple_mac_state,
+      </if>
+      <if test="partnerMacState != null">
+        partner_mac_state,
+      </if>
+      <if test="macthSpare != null">
+        macth_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="macId != null">
+        #{macId,jdbcType=INTEGER},
+      </if>
+      <if test="petId != null">
+        #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="couplePetId != null">
+        #{couplePetId,jdbcType=INTEGER},
+      </if>
+      <if test="partnerPetId != null">
+        #{partnerPetId,jdbcType=INTEGER},
+      </if>
+      <if test="coupleCustId != null">
+        #{coupleCustId,jdbcType=INTEGER},
+      </if>
+      <if test="partnerCustId != null">
+        #{partnerCustId,jdbcType=INTEGER},
+      </if>
+      <if test="coupleMacState != null">
+        #{coupleMacState,jdbcType=INTEGER},
+      </if>
+      <if test="partnerMacState != null">
+        #{partnerMacState,jdbcType=INTEGER},
+      </if>
+      <if test="macthSpare != null">
+        #{macthSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.MacthExample" resultType="java.lang.Long">
+    select count(*) from macth
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update macth
+    <set>
+      <if test="record.macId != null">
+        mac_id = #{record.macId,jdbcType=INTEGER},
+      </if>
+      <if test="record.petId != null">
+        pet_id = #{record.petId,jdbcType=INTEGER},
+      </if>
+      <if test="record.couplePetId != null">
+        couple_pet_id = #{record.couplePetId,jdbcType=INTEGER},
+      </if>
+      <if test="record.partnerPetId != null">
+        partner_pet_id = #{record.partnerPetId,jdbcType=INTEGER},
+      </if>
+      <if test="record.coupleCustId != null">
+        couple_cust_id = #{record.coupleCustId,jdbcType=INTEGER},
+      </if>
+      <if test="record.partnerCustId != null">
+        partner_cust_id = #{record.partnerCustId,jdbcType=INTEGER},
+      </if>
+      <if test="record.coupleMacState != null">
+        couple_mac_state = #{record.coupleMacState,jdbcType=INTEGER},
+      </if>
+      <if test="record.partnerMacState != null">
+        partner_mac_state = #{record.partnerMacState,jdbcType=INTEGER},
+      </if>
+      <if test="record.macthSpare != null">
+        macth_spare = #{record.macthSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update macth
+    set mac_id = #{record.macId,jdbcType=INTEGER},
+      pet_id = #{record.petId,jdbcType=INTEGER},
+      couple_pet_id = #{record.couplePetId,jdbcType=INTEGER},
+      partner_pet_id = #{record.partnerPetId,jdbcType=INTEGER},
+      couple_cust_id = #{record.coupleCustId,jdbcType=INTEGER},
+      partner_cust_id = #{record.partnerCustId,jdbcType=INTEGER},
+      couple_mac_state = #{record.coupleMacState,jdbcType=INTEGER},
+      partner_mac_state = #{record.partnerMacState,jdbcType=INTEGER},
+      macth_spare = #{record.macthSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Macth">
+    update macth
+    <set>
+      <if test="petId != null">
+        pet_id = #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="couplePetId != null">
+        couple_pet_id = #{couplePetId,jdbcType=INTEGER},
+      </if>
+      <if test="partnerPetId != null">
+        partner_pet_id = #{partnerPetId,jdbcType=INTEGER},
+      </if>
+      <if test="coupleCustId != null">
+        couple_cust_id = #{coupleCustId,jdbcType=INTEGER},
+      </if>
+      <if test="partnerCustId != null">
+        partner_cust_id = #{partnerCustId,jdbcType=INTEGER},
+      </if>
+      <if test="coupleMacState != null">
+        couple_mac_state = #{coupleMacState,jdbcType=INTEGER},
+      </if>
+      <if test="partnerMacState != null">
+        partner_mac_state = #{partnerMacState,jdbcType=INTEGER},
+      </if>
+      <if test="macthSpare != null">
+        macth_spare = #{macthSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mac_id = #{macId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Macth">
+    update macth
+    set pet_id = #{petId,jdbcType=INTEGER},
+      couple_pet_id = #{couplePetId,jdbcType=INTEGER},
+      partner_pet_id = #{partnerPetId,jdbcType=INTEGER},
+      couple_cust_id = #{coupleCustId,jdbcType=INTEGER},
+      partner_cust_id = #{partnerCustId,jdbcType=INTEGER},
+      couple_mac_state = #{coupleMacState,jdbcType=INTEGER},
+      partner_mac_state = #{partnerMacState,jdbcType=INTEGER},
+      macth_spare = #{macthSpare,jdbcType=VARCHAR}
+    where mac_id = #{macId,jdbcType=INTEGER}
+  </update>
+</mapper>

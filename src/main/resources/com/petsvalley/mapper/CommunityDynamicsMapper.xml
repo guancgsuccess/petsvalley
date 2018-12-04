@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.CommunityDynamicsMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.CommunityDynamics">
+    <id column="cd_id" jdbcType="INTEGER" property="cdId" />
+    <result column="pet_id" jdbcType="INTEGER" property="petId" />
+    <result column="doc_id" jdbcType="INTEGER" property="docId" />
+    <result column="vacc_id" jdbcType="INTEGER" property="vaccId" />
+    <result column="cd_detatil" jdbcType="VARCHAR" property="cdDetatil" />
+    <result column="cd_spare" jdbcType="VARCHAR" property="cdSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    cd_id, pet_id, doc_id, vacc_id, cd_detatil, cd_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.CommunityDynamicsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from community_dynamics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from community_dynamics
+    where cd_id = #{cdId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from community_dynamics
+    where cd_id = #{cdId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.CommunityDynamicsExample">
+    delete from community_dynamics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.CommunityDynamics">
+    insert into community_dynamics (cd_id, pet_id, doc_id, 
+      vacc_id, cd_detatil, cd_spare
+      )
+    values (#{cdId,jdbcType=INTEGER}, #{petId,jdbcType=INTEGER}, #{docId,jdbcType=INTEGER}, 
+      #{vaccId,jdbcType=INTEGER}, #{cdDetatil,jdbcType=VARCHAR}, #{cdSpare,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.CommunityDynamics">
+    insert into community_dynamics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cdId != null">
+        cd_id,
+      </if>
+      <if test="petId != null">
+        pet_id,
+      </if>
+      <if test="docId != null">
+        doc_id,
+      </if>
+      <if test="vaccId != null">
+        vacc_id,
+      </if>
+      <if test="cdDetatil != null">
+        cd_detatil,
+      </if>
+      <if test="cdSpare != null">
+        cd_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cdId != null">
+        #{cdId,jdbcType=INTEGER},
+      </if>
+      <if test="petId != null">
+        #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="docId != null">
+        #{docId,jdbcType=INTEGER},
+      </if>
+      <if test="vaccId != null">
+        #{vaccId,jdbcType=INTEGER},
+      </if>
+      <if test="cdDetatil != null">
+        #{cdDetatil,jdbcType=VARCHAR},
+      </if>
+      <if test="cdSpare != null">
+        #{cdSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.CommunityDynamicsExample" resultType="java.lang.Long">
+    select count(*) from community_dynamics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update community_dynamics
+    <set>
+      <if test="record.cdId != null">
+        cd_id = #{record.cdId,jdbcType=INTEGER},
+      </if>
+      <if test="record.petId != null">
+        pet_id = #{record.petId,jdbcType=INTEGER},
+      </if>
+      <if test="record.docId != null">
+        doc_id = #{record.docId,jdbcType=INTEGER},
+      </if>
+      <if test="record.vaccId != null">
+        vacc_id = #{record.vaccId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdDetatil != null">
+        cd_detatil = #{record.cdDetatil,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cdSpare != null">
+        cd_spare = #{record.cdSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update community_dynamics
+    set cd_id = #{record.cdId,jdbcType=INTEGER},
+      pet_id = #{record.petId,jdbcType=INTEGER},
+      doc_id = #{record.docId,jdbcType=INTEGER},
+      vacc_id = #{record.vaccId,jdbcType=INTEGER},
+      cd_detatil = #{record.cdDetatil,jdbcType=VARCHAR},
+      cd_spare = #{record.cdSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.CommunityDynamics">
+    update community_dynamics
+    <set>
+      <if test="petId != null">
+        pet_id = #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="docId != null">
+        doc_id = #{docId,jdbcType=INTEGER},
+      </if>
+      <if test="vaccId != null">
+        vacc_id = #{vaccId,jdbcType=INTEGER},
+      </if>
+      <if test="cdDetatil != null">
+        cd_detatil = #{cdDetatil,jdbcType=VARCHAR},
+      </if>
+      <if test="cdSpare != null">
+        cd_spare = #{cdSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cd_id = #{cdId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.CommunityDynamics">
+    update community_dynamics
+    set pet_id = #{petId,jdbcType=INTEGER},
+      doc_id = #{docId,jdbcType=INTEGER},
+      vacc_id = #{vaccId,jdbcType=INTEGER},
+      cd_detatil = #{cdDetatil,jdbcType=VARCHAR},
+      cd_spare = #{cdSpare,jdbcType=VARCHAR}
+    where cd_id = #{cdId,jdbcType=INTEGER}
+  </update>
+</mapper>

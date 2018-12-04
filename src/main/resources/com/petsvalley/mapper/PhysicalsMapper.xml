@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.PhysicalsMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Physicals">
+    <id column="phy_id" jdbcType="INTEGER" property="phyId" />
+    <result column="pet_id" jdbcType="INTEGER" property="petId" />
+    <result column="phy_time" jdbcType="TIMESTAMP" property="phyTime" />
+    <result column="phy_type" jdbcType="VARCHAR" property="phyType" />
+    <result column="phy_loc" jdbcType="VARCHAR" property="phyLoc" />
+    <result column="phy_message" jdbcType="VARCHAR" property="phyMessage" />
+    <result column="phy_state" jdbcType="INTEGER" property="phyState" />
+    <result column="phy_spare" jdbcType="VARCHAR" property="phySpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    phy_id, pet_id, phy_time, phy_type, phy_loc, phy_message, phy_state, phy_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.PhysicalsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from physicals
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from physicals
+    where phy_id = #{phyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from physicals
+    where phy_id = #{phyId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.PhysicalsExample">
+    delete from physicals
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Physicals">
+    insert into physicals (phy_id, pet_id, phy_time, 
+      phy_type, phy_loc, phy_message, 
+      phy_state, phy_spare)
+    values (#{phyId,jdbcType=INTEGER}, #{petId,jdbcType=INTEGER}, #{phyTime,jdbcType=TIMESTAMP}, 
+      #{phyType,jdbcType=VARCHAR}, #{phyLoc,jdbcType=VARCHAR}, #{phyMessage,jdbcType=VARCHAR}, 
+      #{phyState,jdbcType=INTEGER}, #{phySpare,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Physicals">
+    insert into physicals
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="phyId != null">
+        phy_id,
+      </if>
+      <if test="petId != null">
+        pet_id,
+      </if>
+      <if test="phyTime != null">
+        phy_time,
+      </if>
+      <if test="phyType != null">
+        phy_type,
+      </if>
+      <if test="phyLoc != null">
+        phy_loc,
+      </if>
+      <if test="phyMessage != null">
+        phy_message,
+      </if>
+      <if test="phyState != null">
+        phy_state,
+      </if>
+      <if test="phySpare != null">
+        phy_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="phyId != null">
+        #{phyId,jdbcType=INTEGER},
+      </if>
+      <if test="petId != null">
+        #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="phyTime != null">
+        #{phyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phyType != null">
+        #{phyType,jdbcType=VARCHAR},
+      </if>
+      <if test="phyLoc != null">
+        #{phyLoc,jdbcType=VARCHAR},
+      </if>
+      <if test="phyMessage != null">
+        #{phyMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="phyState != null">
+        #{phyState,jdbcType=INTEGER},
+      </if>
+      <if test="phySpare != null">
+        #{phySpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.PhysicalsExample" resultType="java.lang.Long">
+    select count(*) from physicals
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update physicals
+    <set>
+      <if test="record.phyId != null">
+        phy_id = #{record.phyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.petId != null">
+        pet_id = #{record.petId,jdbcType=INTEGER},
+      </if>
+      <if test="record.phyTime != null">
+        phy_time = #{record.phyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.phyType != null">
+        phy_type = #{record.phyType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phyLoc != null">
+        phy_loc = #{record.phyLoc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phyMessage != null">
+        phy_message = #{record.phyMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phyState != null">
+        phy_state = #{record.phyState,jdbcType=INTEGER},
+      </if>
+      <if test="record.phySpare != null">
+        phy_spare = #{record.phySpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update physicals
+    set phy_id = #{record.phyId,jdbcType=INTEGER},
+      pet_id = #{record.petId,jdbcType=INTEGER},
+      phy_time = #{record.phyTime,jdbcType=TIMESTAMP},
+      phy_type = #{record.phyType,jdbcType=VARCHAR},
+      phy_loc = #{record.phyLoc,jdbcType=VARCHAR},
+      phy_message = #{record.phyMessage,jdbcType=VARCHAR},
+      phy_state = #{record.phyState,jdbcType=INTEGER},
+      phy_spare = #{record.phySpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Physicals">
+    update physicals
+    <set>
+      <if test="petId != null">
+        pet_id = #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="phyTime != null">
+        phy_time = #{phyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phyType != null">
+        phy_type = #{phyType,jdbcType=VARCHAR},
+      </if>
+      <if test="phyLoc != null">
+        phy_loc = #{phyLoc,jdbcType=VARCHAR},
+      </if>
+      <if test="phyMessage != null">
+        phy_message = #{phyMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="phyState != null">
+        phy_state = #{phyState,jdbcType=INTEGER},
+      </if>
+      <if test="phySpare != null">
+        phy_spare = #{phySpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where phy_id = #{phyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Physicals">
+    update physicals
+    set pet_id = #{petId,jdbcType=INTEGER},
+      phy_time = #{phyTime,jdbcType=TIMESTAMP},
+      phy_type = #{phyType,jdbcType=VARCHAR},
+      phy_loc = #{phyLoc,jdbcType=VARCHAR},
+      phy_message = #{phyMessage,jdbcType=VARCHAR},
+      phy_state = #{phyState,jdbcType=INTEGER},
+      phy_spare = #{phySpare,jdbcType=VARCHAR}
+    where phy_id = #{phyId,jdbcType=INTEGER}
+  </update>
+</mapper>

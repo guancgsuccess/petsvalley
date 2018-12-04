@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.InsuranceCategoryMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.InsuranceCategory">
+    <id column="ic_id" jdbcType="INTEGER" property="icId" />
+    <result column="ic_type_name" jdbcType="VARCHAR" property="icTypeName" />
+    <result column="ic_content" jdbcType="VARCHAR" property="icContent" />
+    <result column="ic_state" jdbcType="INTEGER" property="icState" />
+    <result column="ic_money" jdbcType="DOUBLE" property="icMoney" />
+    <result column="ic_spare" jdbcType="VARCHAR" property="icSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ic_id, ic_type_name, ic_content, ic_state, ic_money, ic_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.InsuranceCategoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from insurance_category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from insurance_category
+    where ic_id = #{icId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from insurance_category
+    where ic_id = #{icId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.InsuranceCategoryExample">
+    delete from insurance_category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.InsuranceCategory">
+    insert into insurance_category (ic_id, ic_type_name, ic_content, 
+      ic_state, ic_money, ic_spare
+      )
+    values (#{icId,jdbcType=INTEGER}, #{icTypeName,jdbcType=VARCHAR}, #{icContent,jdbcType=VARCHAR}, 
+      #{icState,jdbcType=INTEGER}, #{icMoney,jdbcType=DOUBLE}, #{icSpare,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.InsuranceCategory">
+    insert into insurance_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="icId != null">
+        ic_id,
+      </if>
+      <if test="icTypeName != null">
+        ic_type_name,
+      </if>
+      <if test="icContent != null">
+        ic_content,
+      </if>
+      <if test="icState != null">
+        ic_state,
+      </if>
+      <if test="icMoney != null">
+        ic_money,
+      </if>
+      <if test="icSpare != null">
+        ic_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="icId != null">
+        #{icId,jdbcType=INTEGER},
+      </if>
+      <if test="icTypeName != null">
+        #{icTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="icContent != null">
+        #{icContent,jdbcType=VARCHAR},
+      </if>
+      <if test="icState != null">
+        #{icState,jdbcType=INTEGER},
+      </if>
+      <if test="icMoney != null">
+        #{icMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="icSpare != null">
+        #{icSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.InsuranceCategoryExample" resultType="java.lang.Long">
+    select count(*) from insurance_category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update insurance_category
+    <set>
+      <if test="record.icId != null">
+        ic_id = #{record.icId,jdbcType=INTEGER},
+      </if>
+      <if test="record.icTypeName != null">
+        ic_type_name = #{record.icTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icContent != null">
+        ic_content = #{record.icContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icState != null">
+        ic_state = #{record.icState,jdbcType=INTEGER},
+      </if>
+      <if test="record.icMoney != null">
+        ic_money = #{record.icMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="record.icSpare != null">
+        ic_spare = #{record.icSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update insurance_category
+    set ic_id = #{record.icId,jdbcType=INTEGER},
+      ic_type_name = #{record.icTypeName,jdbcType=VARCHAR},
+      ic_content = #{record.icContent,jdbcType=VARCHAR},
+      ic_state = #{record.icState,jdbcType=INTEGER},
+      ic_money = #{record.icMoney,jdbcType=DOUBLE},
+      ic_spare = #{record.icSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.InsuranceCategory">
+    update insurance_category
+    <set>
+      <if test="icTypeName != null">
+        ic_type_name = #{icTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="icContent != null">
+        ic_content = #{icContent,jdbcType=VARCHAR},
+      </if>
+      <if test="icState != null">
+        ic_state = #{icState,jdbcType=INTEGER},
+      </if>
+      <if test="icMoney != null">
+        ic_money = #{icMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="icSpare != null">
+        ic_spare = #{icSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ic_id = #{icId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.InsuranceCategory">
+    update insurance_category
+    set ic_type_name = #{icTypeName,jdbcType=VARCHAR},
+      ic_content = #{icContent,jdbcType=VARCHAR},
+      ic_state = #{icState,jdbcType=INTEGER},
+      ic_money = #{icMoney,jdbcType=DOUBLE},
+      ic_spare = #{icSpare,jdbcType=VARCHAR}
+    where ic_id = #{icId,jdbcType=INTEGER}
+  </update>
+</mapper>

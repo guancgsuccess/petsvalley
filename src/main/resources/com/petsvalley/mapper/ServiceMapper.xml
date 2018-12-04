@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.ServiceMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Service">
+    <id column="service_id" jdbcType="INTEGER" property="serviceId" />
+    <result column="service_title" jdbcType="VARCHAR" property="serviceTitle" />
+    <result column="service_content" jdbcType="VARCHAR" property="serviceContent" />
+    <result column="service_reward" jdbcType="INTEGER" property="serviceReward" />
+    <result column="service_no" jdbcType="INTEGER" property="serviceNo" />
+    <result column="service_time" jdbcType="TIMESTAMP" property="serviceTime" />
+    <result column="service_state" jdbcType="INTEGER" property="serviceState" />
+    <result column="service_spare" jdbcType="VARCHAR" property="serviceSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    service_id, service_title, service_content, service_reward, service_no, service_time, 
+    service_state, service_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.ServiceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from service
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from service
+    where service_id = #{serviceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from service
+    where service_id = #{serviceId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.ServiceExample">
+    delete from service
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Service">
+    insert into service (service_id, service_title, service_content, 
+      service_reward, service_no, service_time, 
+      service_state, service_spare)
+    values (#{serviceId,jdbcType=INTEGER}, #{serviceTitle,jdbcType=VARCHAR}, #{serviceContent,jdbcType=VARCHAR}, 
+      #{serviceReward,jdbcType=INTEGER}, #{serviceNo,jdbcType=INTEGER}, #{serviceTime,jdbcType=TIMESTAMP}, 
+      #{serviceState,jdbcType=INTEGER}, #{serviceSpare,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Service">
+    insert into service
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="serviceId != null">
+        service_id,
+      </if>
+      <if test="serviceTitle != null">
+        service_title,
+      </if>
+      <if test="serviceContent != null">
+        service_content,
+      </if>
+      <if test="serviceReward != null">
+        service_reward,
+      </if>
+      <if test="serviceNo != null">
+        service_no,
+      </if>
+      <if test="serviceTime != null">
+        service_time,
+      </if>
+      <if test="serviceState != null">
+        service_state,
+      </if>
+      <if test="serviceSpare != null">
+        service_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="serviceId != null">
+        #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceTitle != null">
+        #{serviceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceContent != null">
+        #{serviceContent,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceReward != null">
+        #{serviceReward,jdbcType=INTEGER},
+      </if>
+      <if test="serviceNo != null">
+        #{serviceNo,jdbcType=INTEGER},
+      </if>
+      <if test="serviceTime != null">
+        #{serviceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serviceState != null">
+        #{serviceState,jdbcType=INTEGER},
+      </if>
+      <if test="serviceSpare != null">
+        #{serviceSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.ServiceExample" resultType="java.lang.Long">
+    select count(*) from service
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update service
+    <set>
+      <if test="record.serviceId != null">
+        service_id = #{record.serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.serviceTitle != null">
+        service_title = #{record.serviceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceContent != null">
+        service_content = #{record.serviceContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceReward != null">
+        service_reward = #{record.serviceReward,jdbcType=INTEGER},
+      </if>
+      <if test="record.serviceNo != null">
+        service_no = #{record.serviceNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.serviceTime != null">
+        service_time = #{record.serviceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.serviceState != null">
+        service_state = #{record.serviceState,jdbcType=INTEGER},
+      </if>
+      <if test="record.serviceSpare != null">
+        service_spare = #{record.serviceSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update service
+    set service_id = #{record.serviceId,jdbcType=INTEGER},
+      service_title = #{record.serviceTitle,jdbcType=VARCHAR},
+      service_content = #{record.serviceContent,jdbcType=VARCHAR},
+      service_reward = #{record.serviceReward,jdbcType=INTEGER},
+      service_no = #{record.serviceNo,jdbcType=INTEGER},
+      service_time = #{record.serviceTime,jdbcType=TIMESTAMP},
+      service_state = #{record.serviceState,jdbcType=INTEGER},
+      service_spare = #{record.serviceSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Service">
+    update service
+    <set>
+      <if test="serviceTitle != null">
+        service_title = #{serviceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceContent != null">
+        service_content = #{serviceContent,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceReward != null">
+        service_reward = #{serviceReward,jdbcType=INTEGER},
+      </if>
+      <if test="serviceNo != null">
+        service_no = #{serviceNo,jdbcType=INTEGER},
+      </if>
+      <if test="serviceTime != null">
+        service_time = #{serviceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serviceState != null">
+        service_state = #{serviceState,jdbcType=INTEGER},
+      </if>
+      <if test="serviceSpare != null">
+        service_spare = #{serviceSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where service_id = #{serviceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Service">
+    update service
+    set service_title = #{serviceTitle,jdbcType=VARCHAR},
+      service_content = #{serviceContent,jdbcType=VARCHAR},
+      service_reward = #{serviceReward,jdbcType=INTEGER},
+      service_no = #{serviceNo,jdbcType=INTEGER},
+      service_time = #{serviceTime,jdbcType=TIMESTAMP},
+      service_state = #{serviceState,jdbcType=INTEGER},
+      service_spare = #{serviceSpare,jdbcType=VARCHAR}
+    where service_id = #{serviceId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPage" parameterType="com.petsvalley.util.PageModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from service
+    where service_state != 2
+    order by service_time desc
+    limit #{startRecord},#{pageSize}
+  </select>
+
+  <select id="selectByRewardDesc" parameterType="com.petsvalley.util.PageModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from service
+    where service_state != 2
+    order by service_reward desc
+    limit #{startRecord},#{pageSize}
+  </select>
+
+  <select id="selectByRewardAsc" parameterType="com.petsvalley.util.PageModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from service
+    where service_state != 2
+    order by service_reward asc
+    limit #{startRecord},#{pageSize}
+  </select>
+
+  <select id="selectByTimeDesc" parameterType="com.petsvalley.util.PageModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from service
+    where service_state != 2
+    order by service_time desc
+    limit #{startRecord},#{pageSize}
+  </select>
+
+  <select id="selectByTimeAsc" parameterType="com.petsvalley.util.PageModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from service
+    where service_state != 2
+    order by service_time asc
+    limit #{startRecord},#{pageSize}
+  </select>
+
+  <select id="selectByNoDesc" parameterType="com.petsvalley.util.PageModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from service
+    where service_state != 2
+    order by service_no desc
+    limit #{startRecord},#{pageSize}
+  </select>
+
+  <select id="selectByNoAsc" parameterType="com.petsvalley.util.PageModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from service
+    where service_state != 2
+    order by service_no asc
+    limit #{startRecord},#{pageSize}
+  </select>
+
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(service_id)
+    from service
+    where service_state != 2
+  </select>
+</mapper>

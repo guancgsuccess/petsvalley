@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.FindPetMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.FindPet">
+    <id column="fp_id" jdbcType="INTEGER" property="fpId" />
+    <result column="pet_id" jdbcType="INTEGER" property="petId" />
+    <result column="lost_time" jdbcType="TIMESTAMP" property="lostTime" />
+    <result column="lost_message" jdbcType="VARCHAR" property="lostMessage" />
+    <result column="lost_place" jdbcType="VARCHAR" property="lostPlace" />
+    <result column="pet_photo" jdbcType="VARCHAR" property="petPhoto" />
+    <result column="fp_reward" jdbcType="INTEGER" property="fpReward" />
+    <result column="fp_phone" jdbcType="VARCHAR" property="fpPhone" />
+    <result column="fp_state" jdbcType="INTEGER" property="fpState" />
+    <result column="fd_spare" jdbcType="VARCHAR" property="fdSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    fp_id, pet_id, lost_time, lost_message, lost_place, pet_photo, fp_reward, fp_phone, 
+    fp_state, fd_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.FindPetExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from find_pet
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from find_pet
+    where fp_id = #{fpId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from find_pet
+    where fp_id = #{fpId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.FindPetExample">
+    delete from find_pet
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.FindPet">
+    insert into find_pet (fp_id, pet_id, lost_time, 
+      lost_message, lost_place, pet_photo, 
+      fp_reward, fp_phone, fp_state, 
+      fd_spare)
+    values (#{fpId,jdbcType=INTEGER}, #{petId,jdbcType=INTEGER}, #{lostTime,jdbcType=TIMESTAMP}, 
+      #{lostMessage,jdbcType=VARCHAR}, #{lostPlace,jdbcType=VARCHAR}, #{petPhoto,jdbcType=VARCHAR}, 
+      #{fpReward,jdbcType=INTEGER}, #{fpPhone,jdbcType=VARCHAR}, #{fpState,jdbcType=INTEGER}, 
+      #{fdSpare,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.FindPet">
+    insert into find_pet
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fpId != null">
+        fp_id,
+      </if>
+      <if test="petId != null">
+        pet_id,
+      </if>
+      <if test="lostTime != null">
+        lost_time,
+      </if>
+      <if test="lostMessage != null">
+        lost_message,
+      </if>
+      <if test="lostPlace != null">
+        lost_place,
+      </if>
+      <if test="petPhoto != null">
+        pet_photo,
+      </if>
+      <if test="fpReward != null">
+        fp_reward,
+      </if>
+      <if test="fpPhone != null">
+        fp_phone,
+      </if>
+      <if test="fpState != null">
+        fp_state,
+      </if>
+      <if test="fdSpare != null">
+        fd_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fpId != null">
+        #{fpId,jdbcType=INTEGER},
+      </if>
+      <if test="petId != null">
+        #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="lostTime != null">
+        #{lostTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lostMessage != null">
+        #{lostMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="lostPlace != null">
+        #{lostPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="petPhoto != null">
+        #{petPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="fpReward != null">
+        #{fpReward,jdbcType=INTEGER},
+      </if>
+      <if test="fpPhone != null">
+        #{fpPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="fpState != null">
+        #{fpState,jdbcType=INTEGER},
+      </if>
+      <if test="fdSpare != null">
+        #{fdSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.FindPetExample" resultType="java.lang.Integer">
+    select count(*) from find_pet
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update find_pet
+    <set>
+      <if test="record.fpId != null">
+        fp_id = #{record.fpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.petId != null">
+        pet_id = #{record.petId,jdbcType=INTEGER},
+      </if>
+      <if test="record.lostTime != null">
+        lost_time = #{record.lostTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lostMessage != null">
+        lost_message = #{record.lostMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lostPlace != null">
+        lost_place = #{record.lostPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.petPhoto != null">
+        pet_photo = #{record.petPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fpReward != null">
+        fp_reward = #{record.fpReward,jdbcType=INTEGER},
+      </if>
+      <if test="record.fpPhone != null">
+        fp_phone = #{record.fpPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fpState != null">
+        fp_state = #{record.fpState,jdbcType=INTEGER},
+      </if>
+      <if test="record.fdSpare != null">
+        fd_spare = #{record.fdSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update find_pet
+    set fp_id = #{record.fpId,jdbcType=INTEGER},
+      pet_id = #{record.petId,jdbcType=INTEGER},
+      lost_time = #{record.lostTime,jdbcType=TIMESTAMP},
+      lost_message = #{record.lostMessage,jdbcType=VARCHAR},
+      lost_place = #{record.lostPlace,jdbcType=VARCHAR},
+      pet_photo = #{record.petPhoto,jdbcType=VARCHAR},
+      fp_reward = #{record.fpReward,jdbcType=INTEGER},
+      fp_phone = #{record.fpPhone,jdbcType=VARCHAR},
+      fp_state = #{record.fpState,jdbcType=INTEGER},
+      fd_spare = #{record.fdSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.FindPet">
+    update find_pet
+    <set>
+      <if test="petId != null">
+        pet_id = #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="lostTime != null">
+        lost_time = #{lostTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lostMessage != null">
+        lost_message = #{lostMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="lostPlace != null">
+        lost_place = #{lostPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="petPhoto != null">
+        pet_photo = #{petPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="fpReward != null">
+        fp_reward = #{fpReward,jdbcType=INTEGER},
+      </if>
+      <if test="fpPhone != null">
+        fp_phone = #{fpPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="fpState != null">
+        fp_state = #{fpState,jdbcType=INTEGER},
+      </if>
+      <if test="fdSpare != null">
+        fd_spare = #{fdSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fp_id = #{fpId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.FindPet">
+    update find_pet
+    set pet_id = #{petId,jdbcType=INTEGER},
+      lost_time = #{lostTime,jdbcType=TIMESTAMP},
+      lost_message = #{lostMessage,jdbcType=VARCHAR},
+      lost_place = #{lostPlace,jdbcType=VARCHAR},
+      pet_photo = #{petPhoto,jdbcType=VARCHAR},
+      fp_reward = #{fpReward,jdbcType=INTEGER},
+      fp_phone = #{fpPhone,jdbcType=VARCHAR},
+      fp_state = #{fpState,jdbcType=INTEGER},
+      fd_spare = #{fdSpare,jdbcType=VARCHAR}
+    where fp_id = #{fpId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPage" parameterType="com.petsvalley.util.PageModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from find_pet
+    order by lost_time desc
+    limit #{startRecord},#{pageSize}
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(fp_id)
+    from find_pet
+  </select>
+  <select id="selectCountByCondition" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(fp_id)
+    from find_pet
+    where fp_state=#{fpState}
+  </select>
+
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from find_pet
+    where fp_state=#{arg1}
+    order by lost_time desc
+    limit #{arg0.startRecord},#{arg0.pageSize}
+  </select>
+
+  <select id="selectByCustId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from find_pet
+    where fd_spare=#{custId}
+  </select>
+
+  <select id="selectFindPetByPetId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from find_pet
+    where pet_id=#{petId}
+  </select>
+</mapper>

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.FosterMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Foster">
+    <id column="foster_id" jdbcType="INTEGER" property="fosterId" />
+    <result column="foster_cust_id" jdbcType="INTEGER" property="fosterCustId" />
+    <result column="foster_pet_id" jdbcType="INTEGER" property="fosterPetId" />
+    <result column="foster_message" jdbcType="VARCHAR" property="fosterMessage" />
+    <result column="foster_reason" jdbcType="VARCHAR" property="fosterReason" />
+    <result column="foster_photo" jdbcType="VARCHAR" property="fosterPhoto" />
+    <result column="foster_state" jdbcType="INTEGER" property="fosterState" />
+    <result column="foster_spare" jdbcType="VARCHAR" property="fosterSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    foster_id, foster_cust_id, foster_pet_id, foster_message, foster_reason, foster_photo, 
+    foster_state, foster_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.FosterExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from foster
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from foster
+    where foster_id = #{fosterId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from foster
+    where foster_id = #{fosterId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.FosterExample">
+    delete from foster
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Foster">
+    insert into foster (foster_id, foster_cust_id, foster_pet_id, 
+      foster_message, foster_reason, foster_photo, 
+      foster_state, foster_spare)
+    values (#{fosterId,jdbcType=INTEGER}, #{fosterCustId,jdbcType=INTEGER}, #{fosterPetId,jdbcType=INTEGER}, 
+      #{fosterMessage,jdbcType=VARCHAR}, #{fosterReason,jdbcType=VARCHAR}, #{fosterPhoto,jdbcType=VARCHAR}, 
+      #{fosterState,jdbcType=INTEGER}, #{fosterSpare,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Foster">
+    insert into foster
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fosterId != null">
+        foster_id,
+      </if>
+      <if test="fosterCustId != null">
+        foster_cust_id,
+      </if>
+      <if test="fosterPetId != null">
+        foster_pet_id,
+      </if>
+      <if test="fosterMessage != null">
+        foster_message,
+      </if>
+      <if test="fosterReason != null">
+        foster_reason,
+      </if>
+      <if test="fosterPhoto != null">
+        foster_photo,
+      </if>
+      <if test="fosterState != null">
+        foster_state,
+      </if>
+      <if test="fosterSpare != null">
+        foster_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fosterId != null">
+        #{fosterId,jdbcType=INTEGER},
+      </if>
+      <if test="fosterCustId != null">
+        #{fosterCustId,jdbcType=INTEGER},
+      </if>
+      <if test="fosterPetId != null">
+        #{fosterPetId,jdbcType=INTEGER},
+      </if>
+      <if test="fosterMessage != null">
+        #{fosterMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="fosterReason != null">
+        #{fosterReason,jdbcType=VARCHAR},
+      </if>
+      <if test="fosterPhoto != null">
+        #{fosterPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="fosterState != null">
+        #{fosterState,jdbcType=INTEGER},
+      </if>
+      <if test="fosterSpare != null">
+        #{fosterSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.FosterExample" resultType="java.lang.Long">
+    select count(*) from foster
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update foster
+    <set>
+      <if test="record.fosterId != null">
+        foster_id = #{record.fosterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fosterCustId != null">
+        foster_cust_id = #{record.fosterCustId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fosterPetId != null">
+        foster_pet_id = #{record.fosterPetId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fosterMessage != null">
+        foster_message = #{record.fosterMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fosterReason != null">
+        foster_reason = #{record.fosterReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fosterPhoto != null">
+        foster_photo = #{record.fosterPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fosterState != null">
+        foster_state = #{record.fosterState,jdbcType=INTEGER},
+      </if>
+      <if test="record.fosterSpare != null">
+        foster_spare = #{record.fosterSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update foster
+    set foster_id = #{record.fosterId,jdbcType=INTEGER},
+      foster_cust_id = #{record.fosterCustId,jdbcType=INTEGER},
+      foster_pet_id = #{record.fosterPetId,jdbcType=INTEGER},
+      foster_message = #{record.fosterMessage,jdbcType=VARCHAR},
+      foster_reason = #{record.fosterReason,jdbcType=VARCHAR},
+      foster_photo = #{record.fosterPhoto,jdbcType=VARCHAR},
+      foster_state = #{record.fosterState,jdbcType=INTEGER},
+      foster_spare = #{record.fosterSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Foster">
+    update foster
+    <set>
+      <if test="fosterCustId != null">
+        foster_cust_id = #{fosterCustId,jdbcType=INTEGER},
+      </if>
+      <if test="fosterPetId != null">
+        foster_pet_id = #{fosterPetId,jdbcType=INTEGER},
+      </if>
+      <if test="fosterMessage != null">
+        foster_message = #{fosterMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="fosterReason != null">
+        foster_reason = #{fosterReason,jdbcType=VARCHAR},
+      </if>
+      <if test="fosterPhoto != null">
+        foster_photo = #{fosterPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="fosterState != null">
+        foster_state = #{fosterState,jdbcType=INTEGER},
+      </if>
+      <if test="fosterSpare != null">
+        foster_spare = #{fosterSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where foster_id = #{fosterId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Foster">
+    update foster
+    set foster_cust_id = #{fosterCustId,jdbcType=INTEGER},
+      foster_pet_id = #{fosterPetId,jdbcType=INTEGER},
+      foster_message = #{fosterMessage,jdbcType=VARCHAR},
+      foster_reason = #{fosterReason,jdbcType=VARCHAR},
+      foster_photo = #{fosterPhoto,jdbcType=VARCHAR},
+      foster_state = #{fosterState,jdbcType=INTEGER},
+      foster_spare = #{fosterSpare,jdbcType=VARCHAR}
+    where foster_id = #{fosterId,jdbcType=INTEGER}
+  </update>
+  <select id="selectFosterList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from foster f join pet p on f.foster_pet_id=p.pet_id
+    join pet_type t on p.pet_type_id=t.type_id
+    join disc d on t.disc_id = d.disc_id
+    <where>
+      <if test="arg0 != null and arg0 != ''">
+        f.foster_state = #{arg0}
+      </if>
+      <if test="arg2 != null and arg2 != ''">
+        and d.disc_name = #{arg2}
+      </if>
+    </where>
+    limit #{arg1.startRecord},#{arg1.pageSize}
+  </select>
+
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(f.foster_id)
+    from foster f join pet p on f.foster_pet_id=p.pet_id
+    join pet_type t on p.pet_type_id=t.type_id
+    join disc d on t.disc_id = d.disc_id
+    <where>
+      <if test="arg0 != null and arg0 != ''">
+        f.foster_state = #{arg0}
+      </if>
+      <if test="arg1 != null and arg1 != ''">
+        and d.disc_name = #{arg1}
+      </if>
+    </where>
+  </select>
+
+  <update id="updateFosterState">
+    update
+    foster
+    set foster_state=#{arg1}
+    where foster_id=#{arg0}
+  </update>
+
+  <select id="selectFosterByPetId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from foster
+    where foster_pet_id=#{petId}
+  </select>
+</mapper>

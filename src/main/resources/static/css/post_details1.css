@@ -1,0 +1,139 @@
+.title{
+    width: 70%;
+    height: 60px;
+    border-right: 1px solid darkgray;
+    border-top: 1px solid darkgray;
+    border-left: 1px solid darkgray;
+    margin: 0 auto;
+
+}
+.title span{
+    margin-left: 45px;
+    margin-top: 15px;
+    text-align: center;
+    line-height: 55px;
+}
+.title input{
+    margin-left: 20px;
+}
+.comment{
+    width: 70%;
+    height: auto;
+    margin: 0 auto;
+    border: 1px solid darkgray;
+    /*  border-left: 1px solid darkgray;
+      border-bottom: 1px solid darkgray;
+      boder-top-left-radius:30px;
+      boder-top-right-radius:30px;*/
+}
+.text{
+    height: auto;
+    width: auto;
+    border: 2px solid #000000;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius:15px;
+
+}
+.emo1{
+    float: left;
+    width: 40px;
+    height: 40px;
+}
+.emo2{
+    float: right;
+    width: 40px;
+    height: 40px;
+}
+/*      .text span{
+        border: 1px solid red;
+         margin-top: 15px;
+          margin-left: 20px;
+          height: 30px;
+          text-align: center;
+      }*/
+.aa{
+    margin-left: 51px;
+    margin-top: 20px;
+    height: 40px;
+    width: auto;
+    color: pink;
+    font-family:KaiTi;
+    font-size: 18px;
+}
+.cc{
+    width: 100%;
+    height:auto;
+    position: relative;
+}
+.img1{
+    width: 30%;
+    height: auto;
+    border-right: 1px solid #E1E4E6;
+    text-align: center;
+
+}
+.img1>img{
+    margin-top: 20px;
+    height: 100px;
+    width: 120px;
+}
+.name{
+    display: block;
+    margin-top: 15px;
+    color: blue;
+
+}
+.name span{
+
+    display: inline-block;
+    margin-left: 15px;
+}
+.name img{
+    margin-left: -20px;
+    margin-top: -2px;
+    position: absolute;
+}
+.content{
+    display: block;
+    height: auto;
+    width:66%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 25px;
+    margin-left: 20px;
+}
+
+.imgs{
+    margin-left: 30%;
+    border-left: 1px solid #E1E4E6;
+    border-top: 1px solid #E1E4E6;
+    display: block;
+    margin-top: -35px;
+}
+.imgs img{
+    margin: 0 auto;
+    display: block;
+    height: 390px;
+    width: 490px;
+    margin-top: 5px;
+}
+.date{
+    float: right;
+    top: 0;
+    right: 0;
+    margin-right: 30px;
+    margin-top: -30px;
+    display: block;
+}
+
+#page{
+    margin-left: 17%;
+    margin-top: 30px;
+}
+#page #pages{
+    width: 45px;
+    height: 23px;
+    margin-top: -3px;
+}

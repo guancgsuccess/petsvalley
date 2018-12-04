@@ -1,0 +1,57 @@
+.slides h3 {
+    background-image: url('../images/40percent.png');
+}
+#search input[type="text"] {
+    padding:10px;
+    height:16px;
+    border-color:#333;
+}
+#footer #contact input[type="text"], #footer #contact textarea {
+    width:160px;
+    border-color:#333;
+}
+#regis{
+    width: 50%;
+    height: 600px;
+    float: left;
+}
+#regis form .af-outer .af-inner label{
+    display:inline-block;
+    margin-top: 15px;
+}
+#regis form .af-outer .af-inner .error{
+    display:block;
+    margin-top: -12px;
+    margin-bottom: -8px;
+}
+#regis form .af-outer .af-inner input{
+    position: relative;
+    margin-bottom: 30px;
+}
+input{
+    padding-left: 3%!important;
+    text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 50%;
+}
+#submit_btn{
+    font-family: 'Droid Serif', serif;
+    width: 46%;
+    background-color:#149bdf;
+    padding: 8px 20px;
+    cursor: pointer;
+    margin-left: 31.5%;
+    border: 1px solid #000000;
+    color: #222;
+    font-size: 20px;
+}
+#container .container .introduce{
+    width: 49%;
+    height: 600px;
+    float: right;
+}
+#container .container .introduce .span3 p{
+
+}

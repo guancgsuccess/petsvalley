@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.VaccineMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Vaccine">
+    <id column="vacc_id" jdbcType="INTEGER" property="vaccId" />
+    <result column="pet_id" jdbcType="INTEGER" property="petId" />
+    <result column="vacc_type" jdbcType="VARCHAR" property="vaccType" />
+    <result column="vacc_time" jdbcType="TIMESTAMP" property="vaccTime" />
+    <result column="vacc_message" jdbcType="VARCHAR" property="vaccMessage" />
+    <result column="vacc_state" jdbcType="INTEGER" property="vaccState" />
+    <result column="vacc_spare" jdbcType="VARCHAR" property="vaccSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    vacc_id, pet_id, vacc_type, vacc_time, vacc_message, vacc_state, vacc_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.VaccineExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vaccine
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vaccine
+    where vacc_id = #{vaccId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from vaccine
+    where vacc_id = #{vaccId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.VaccineExample">
+    delete from vaccine
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Vaccine">
+    insert into vaccine (vacc_id, pet_id, vacc_type, 
+      vacc_time, vacc_message, vacc_state, 
+      vacc_spare)
+    values (#{vaccId,jdbcType=INTEGER}, #{petId,jdbcType=INTEGER}, #{vaccType,jdbcType=VARCHAR}, 
+      #{vaccTime,jdbcType=TIMESTAMP}, #{vaccMessage,jdbcType=VARCHAR}, #{vaccState,jdbcType=INTEGER}, 
+      #{vaccSpare,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Vaccine">
+    insert into vaccine
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="vaccId != null">
+        vacc_id,
+      </if>
+      <if test="petId != null">
+        pet_id,
+      </if>
+      <if test="vaccType != null">
+        vacc_type,
+      </if>
+      <if test="vaccTime != null">
+        vacc_time,
+      </if>
+      <if test="vaccMessage != null">
+        vacc_message,
+      </if>
+      <if test="vaccState != null">
+        vacc_state,
+      </if>
+      <if test="vaccSpare != null">
+        vacc_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="vaccId != null">
+        #{vaccId,jdbcType=INTEGER},
+      </if>
+      <if test="petId != null">
+        #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="vaccType != null">
+        #{vaccType,jdbcType=VARCHAR},
+      </if>
+      <if test="vaccTime != null">
+        #{vaccTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vaccMessage != null">
+        #{vaccMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="vaccState != null">
+        #{vaccState,jdbcType=INTEGER},
+      </if>
+      <if test="vaccSpare != null">
+        #{vaccSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.VaccineExample" resultType="java.lang.Long">
+    select count(*) from vaccine
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vaccine
+    <set>
+      <if test="record.vaccId != null">
+        vacc_id = #{record.vaccId,jdbcType=INTEGER},
+      </if>
+      <if test="record.petId != null">
+        pet_id = #{record.petId,jdbcType=INTEGER},
+      </if>
+      <if test="record.vaccType != null">
+        vacc_type = #{record.vaccType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vaccTime != null">
+        vacc_time = #{record.vaccTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.vaccMessage != null">
+        vacc_message = #{record.vaccMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vaccState != null">
+        vacc_state = #{record.vaccState,jdbcType=INTEGER},
+      </if>
+      <if test="record.vaccSpare != null">
+        vacc_spare = #{record.vaccSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vaccine
+    set vacc_id = #{record.vaccId,jdbcType=INTEGER},
+      pet_id = #{record.petId,jdbcType=INTEGER},
+      vacc_type = #{record.vaccType,jdbcType=VARCHAR},
+      vacc_time = #{record.vaccTime,jdbcType=TIMESTAMP},
+      vacc_message = #{record.vaccMessage,jdbcType=VARCHAR},
+      vacc_state = #{record.vaccState,jdbcType=INTEGER},
+      vacc_spare = #{record.vaccSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Vaccine">
+    update vaccine
+    <set>
+      <if test="petId != null">
+        pet_id = #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="vaccType != null">
+        vacc_type = #{vaccType,jdbcType=VARCHAR},
+      </if>
+      <if test="vaccTime != null">
+        vacc_time = #{vaccTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vaccMessage != null">
+        vacc_message = #{vaccMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="vaccState != null">
+        vacc_state = #{vaccState,jdbcType=INTEGER},
+      </if>
+      <if test="vaccSpare != null">
+        vacc_spare = #{vaccSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where vacc_id = #{vaccId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Vaccine">
+    update vaccine
+    set pet_id = #{petId,jdbcType=INTEGER},
+      vacc_type = #{vaccType,jdbcType=VARCHAR},
+      vacc_time = #{vaccTime,jdbcType=TIMESTAMP},
+      vacc_message = #{vaccMessage,jdbcType=VARCHAR},
+      vacc_state = #{vaccState,jdbcType=INTEGER},
+      vacc_spare = #{vaccSpare,jdbcType=VARCHAR}
+    where vacc_id = #{vaccId,jdbcType=INTEGER}
+  </update>
+</mapper>

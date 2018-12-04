@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!--<setting name="logImpl" value="LOG4J"/>-->
+		<!-- 开启二级缓存 -->
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+	<!--<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				&lt;!&ndash;<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://localhost:3306/cutepetvalley?characterEcoding=UTF-8" />
+				<property name="username" value="mjs" />
+				<property name="password" value="123" />&ndash;&gt;
+			</dataSource>
+		</environment>
+	</environments>-->
+
+</configuration>

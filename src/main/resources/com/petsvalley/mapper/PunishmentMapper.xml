@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.PunishmentMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Punishment">
+    <id column="pun_id" jdbcType="INTEGER" property="punId" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="reg_id" jdbcType="INTEGER" property="regId" />
+    <result column="irregularities_time" jdbcType="TIMESTAMP" property="irregularitiesTime" />
+    <result column="pun_time" jdbcType="TIMESTAMP" property="punTime" />
+    <result column="pun_content" jdbcType="VARCHAR" property="punContent" />
+    <result column="pun_result" jdbcType="VARCHAR" property="punResult" />
+    <result column="pun_state" jdbcType="INTEGER" property="punState" />
+    <result column="pun_spare" jdbcType="VARCHAR" property="punSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pun_id, cust_id, reg_id, irregularities_time, pun_time, pun_content, pun_result, 
+    pun_state, pun_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.PunishmentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from punishment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from punishment
+    where pun_id = #{punId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from punishment
+    where pun_id = #{punId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.PunishmentExample">
+    delete from punishment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Punishment">
+    insert into punishment (pun_id, cust_id, reg_id, 
+      irregularities_time, pun_time, pun_content, 
+      pun_result, pun_state, pun_spare
+      )
+    values (#{punId,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{regId,jdbcType=INTEGER}, 
+      #{irregularitiesTime,jdbcType=TIMESTAMP}, #{punTime,jdbcType=TIMESTAMP}, #{punContent,jdbcType=VARCHAR}, 
+      #{punResult,jdbcType=VARCHAR}, #{punState,jdbcType=INTEGER}, #{punSpare,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Punishment">
+    insert into punishment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="punId != null">
+        pun_id,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="regId != null">
+        reg_id,
+      </if>
+      <if test="irregularitiesTime != null">
+        irregularities_time,
+      </if>
+      <if test="punTime != null">
+        pun_time,
+      </if>
+      <if test="punContent != null">
+        pun_content,
+      </if>
+      <if test="punResult != null">
+        pun_result,
+      </if>
+      <if test="punState != null">
+        pun_state,
+      </if>
+      <if test="punSpare != null">
+        pun_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="punId != null">
+        #{punId,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="regId != null">
+        #{regId,jdbcType=INTEGER},
+      </if>
+      <if test="irregularitiesTime != null">
+        #{irregularitiesTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="punTime != null">
+        #{punTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="punContent != null">
+        #{punContent,jdbcType=VARCHAR},
+      </if>
+      <if test="punResult != null">
+        #{punResult,jdbcType=VARCHAR},
+      </if>
+      <if test="punState != null">
+        #{punState,jdbcType=INTEGER},
+      </if>
+      <if test="punSpare != null">
+        #{punSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.PunishmentExample" resultType="java.lang.Long">
+    select count(*) from punishment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update punishment
+    <set>
+      <if test="record.punId != null">
+        pun_id = #{record.punId,jdbcType=INTEGER},
+      </if>
+      <if test="record.custId != null">
+        cust_id = #{record.custId,jdbcType=INTEGER},
+      </if>
+      <if test="record.regId != null">
+        reg_id = #{record.regId,jdbcType=INTEGER},
+      </if>
+      <if test="record.irregularitiesTime != null">
+        irregularities_time = #{record.irregularitiesTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.punTime != null">
+        pun_time = #{record.punTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.punContent != null">
+        pun_content = #{record.punContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.punResult != null">
+        pun_result = #{record.punResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.punState != null">
+        pun_state = #{record.punState,jdbcType=INTEGER},
+      </if>
+      <if test="record.punSpare != null">
+        pun_spare = #{record.punSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update punishment
+    set pun_id = #{record.punId,jdbcType=INTEGER},
+      cust_id = #{record.custId,jdbcType=INTEGER},
+      reg_id = #{record.regId,jdbcType=INTEGER},
+      irregularities_time = #{record.irregularitiesTime,jdbcType=TIMESTAMP},
+      pun_time = #{record.punTime,jdbcType=TIMESTAMP},
+      pun_content = #{record.punContent,jdbcType=VARCHAR},
+      pun_result = #{record.punResult,jdbcType=VARCHAR},
+      pun_state = #{record.punState,jdbcType=INTEGER},
+      pun_spare = #{record.punSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Punishment">
+    update punishment
+    <set>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="regId != null">
+        reg_id = #{regId,jdbcType=INTEGER},
+      </if>
+      <if test="irregularitiesTime != null">
+        irregularities_time = #{irregularitiesTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="punTime != null">
+        pun_time = #{punTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="punContent != null">
+        pun_content = #{punContent,jdbcType=VARCHAR},
+      </if>
+      <if test="punResult != null">
+        pun_result = #{punResult,jdbcType=VARCHAR},
+      </if>
+      <if test="punState != null">
+        pun_state = #{punState,jdbcType=INTEGER},
+      </if>
+      <if test="punSpare != null">
+        pun_spare = #{punSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pun_id = #{punId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Punishment">
+    update punishment
+    set cust_id = #{custId,jdbcType=INTEGER},
+      reg_id = #{regId,jdbcType=INTEGER},
+      irregularities_time = #{irregularitiesTime,jdbcType=TIMESTAMP},
+      pun_time = #{punTime,jdbcType=TIMESTAMP},
+      pun_content = #{punContent,jdbcType=VARCHAR},
+      pun_result = #{punResult,jdbcType=VARCHAR},
+      pun_state = #{punState,jdbcType=INTEGER},
+      pun_spare = #{punSpare,jdbcType=VARCHAR}
+    where pun_id = #{punId,jdbcType=INTEGER}
+  </update>
+</mapper>

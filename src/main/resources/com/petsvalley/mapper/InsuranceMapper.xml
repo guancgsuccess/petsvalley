@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.InsuranceMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Insurance">
+    <id column="ins_id" jdbcType="INTEGER" property="insId" />
+    <result column="pet_id" jdbcType="INTEGER" property="petId" />
+    <result column="ic_id" jdbcType="INTEGER" property="icId" />
+    <result column="ins_time" jdbcType="TIMESTAMP" property="insTime" />
+    <result column="ins_money" jdbcType="DOUBLE" property="insMoney" />
+    <result column="ins_com_name" jdbcType="VARCHAR" property="insComName" />
+    <result column="ins_state" jdbcType="INTEGER" property="insState" />
+    <result column="ins_end_time" jdbcType="TIMESTAMP" property="insEndTime" />
+    <result column="ins_spare" jdbcType="VARCHAR" property="insSpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ins_id, pet_id, ic_id, ins_time, ins_money, ins_com_name, ins_state, ins_end_time, 
+    ins_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.InsuranceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from insurance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from insurance
+    where ins_id = #{insId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from insurance
+    where ins_id = #{insId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.InsuranceExample">
+    delete from insurance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Insurance">
+    insert into insurance (ins_id, pet_id, ic_id, 
+      ins_time, ins_money, ins_com_name, 
+      ins_state, ins_end_time, ins_spare
+      )
+    values (#{insId,jdbcType=INTEGER}, #{petId,jdbcType=INTEGER}, #{icId,jdbcType=INTEGER}, 
+      #{insTime,jdbcType=TIMESTAMP}, #{insMoney,jdbcType=DOUBLE}, #{insComName,jdbcType=VARCHAR}, 
+      #{insState,jdbcType=INTEGER}, #{insEndTime,jdbcType=TIMESTAMP}, #{insSpare,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Insurance">
+    insert into insurance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="insId != null">
+        ins_id,
+      </if>
+      <if test="petId != null">
+        pet_id,
+      </if>
+      <if test="icId != null">
+        ic_id,
+      </if>
+      <if test="insTime != null">
+        ins_time,
+      </if>
+      <if test="insMoney != null">
+        ins_money,
+      </if>
+      <if test="insComName != null">
+        ins_com_name,
+      </if>
+      <if test="insState != null">
+        ins_state,
+      </if>
+      <if test="insEndTime != null">
+        ins_end_time,
+      </if>
+      <if test="insSpare != null">
+        ins_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="insId != null">
+        #{insId,jdbcType=INTEGER},
+      </if>
+      <if test="petId != null">
+        #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="icId != null">
+        #{icId,jdbcType=INTEGER},
+      </if>
+      <if test="insTime != null">
+        #{insTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insMoney != null">
+        #{insMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="insComName != null">
+        #{insComName,jdbcType=VARCHAR},
+      </if>
+      <if test="insState != null">
+        #{insState,jdbcType=INTEGER},
+      </if>
+      <if test="insEndTime != null">
+        #{insEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insSpare != null">
+        #{insSpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.InsuranceExample" resultType="java.lang.Long">
+    select count(*) from insurance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update insurance
+    <set>
+      <if test="record.insId != null">
+        ins_id = #{record.insId,jdbcType=INTEGER},
+      </if>
+      <if test="record.petId != null">
+        pet_id = #{record.petId,jdbcType=INTEGER},
+      </if>
+      <if test="record.icId != null">
+        ic_id = #{record.icId,jdbcType=INTEGER},
+      </if>
+      <if test="record.insTime != null">
+        ins_time = #{record.insTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.insMoney != null">
+        ins_money = #{record.insMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="record.insComName != null">
+        ins_com_name = #{record.insComName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.insState != null">
+        ins_state = #{record.insState,jdbcType=INTEGER},
+      </if>
+      <if test="record.insEndTime != null">
+        ins_end_time = #{record.insEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.insSpare != null">
+        ins_spare = #{record.insSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update insurance
+    set ins_id = #{record.insId,jdbcType=INTEGER},
+      pet_id = #{record.petId,jdbcType=INTEGER},
+      ic_id = #{record.icId,jdbcType=INTEGER},
+      ins_time = #{record.insTime,jdbcType=TIMESTAMP},
+      ins_money = #{record.insMoney,jdbcType=DOUBLE},
+      ins_com_name = #{record.insComName,jdbcType=VARCHAR},
+      ins_state = #{record.insState,jdbcType=INTEGER},
+      ins_end_time = #{record.insEndTime,jdbcType=TIMESTAMP},
+      ins_spare = #{record.insSpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Insurance">
+    update insurance
+    <set>
+      <if test="petId != null">
+        pet_id = #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="icId != null">
+        ic_id = #{icId,jdbcType=INTEGER},
+      </if>
+      <if test="insTime != null">
+        ins_time = #{insTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insMoney != null">
+        ins_money = #{insMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="insComName != null">
+        ins_com_name = #{insComName,jdbcType=VARCHAR},
+      </if>
+      <if test="insState != null">
+        ins_state = #{insState,jdbcType=INTEGER},
+      </if>
+      <if test="insEndTime != null">
+        ins_end_time = #{insEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insSpare != null">
+        ins_spare = #{insSpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ins_id = #{insId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Insurance">
+    update insurance
+    set pet_id = #{petId,jdbcType=INTEGER},
+      ic_id = #{icId,jdbcType=INTEGER},
+      ins_time = #{insTime,jdbcType=TIMESTAMP},
+      ins_money = #{insMoney,jdbcType=DOUBLE},
+      ins_com_name = #{insComName,jdbcType=VARCHAR},
+      ins_state = #{insState,jdbcType=INTEGER},
+      ins_end_time = #{insEndTime,jdbcType=TIMESTAMP},
+      ins_spare = #{insSpare,jdbcType=VARCHAR}
+    where ins_id = #{insId,jdbcType=INTEGER}
+  </update>
+</mapper>

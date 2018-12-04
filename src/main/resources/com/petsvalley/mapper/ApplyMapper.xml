@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petsvalley.mapper.ApplyMapper">
+  <cache type="com.petsvalley.MybatisRedisCache" blocking="false"
+         flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+  <resultMap id="BaseResultMap" type="com.petsvalley.entity.Apply">
+    <id column="apply_id" jdbcType="INTEGER" property="applyId" />
+    <result column="service_id" jdbcType="INTEGER" property="serviceId" />
+    <result column="foster_id" jdbcType="INTEGER" property="fosterId" />
+    <result column="apply_cust_id" jdbcType="INTEGER" property="applyCustId" />
+    <result column="apply_state" jdbcType="INTEGER" property="applyState" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="apply_classify" jdbcType="VARCHAR" property="applyClassify" />
+    <result column="apply_schedule" jdbcType="VARCHAR" property="applySchedule" />
+    <result column="apply_spare" jdbcType="VARCHAR" property="applySpare" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    apply_id, service_id, foster_id, apply_cust_id, apply_state, apply_time, apply_classify, 
+    apply_schedule, apply_spare
+  </sql>
+  <select id="selectByExample" parameterType="com.petsvalley.entity.ApplyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from apply
+    where apply_id = #{applyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from apply
+    where apply_id = #{applyId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.petsvalley.entity.ApplyExample">
+    delete from apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.petsvalley.entity.Apply">
+    insert into apply (apply_id, service_id, foster_id, 
+      apply_cust_id, apply_state, apply_time, 
+      apply_classify, apply_schedule, apply_spare
+      )
+    values (#{applyId,jdbcType=INTEGER}, #{serviceId,jdbcType=INTEGER}, #{fosterId,jdbcType=INTEGER}, 
+      #{applyCustId,jdbcType=INTEGER}, #{applyState,jdbcType=INTEGER}, #{applyTime,jdbcType=TIMESTAMP}, 
+      #{applyClassify,jdbcType=VARCHAR}, #{applySchedule,jdbcType=VARCHAR}, #{applySpare,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.petsvalley.entity.Apply">
+    insert into apply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="applyId != null">
+        apply_id,
+      </if>
+      <if test="serviceId != null">
+        service_id,
+      </if>
+      <if test="fosterId != null">
+        foster_id,
+      </if>
+      <if test="applyCustId != null">
+        apply_cust_id,
+      </if>
+      <if test="applyState != null">
+        apply_state,
+      </if>
+      <if test="applyTime != null">
+        apply_time,
+      </if>
+      <if test="applyClassify != null">
+        apply_classify,
+      </if>
+      <if test="applySchedule != null">
+        apply_schedule,
+      </if>
+      <if test="applySpare != null">
+        apply_spare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="applyId != null">
+        #{applyId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceId != null">
+        #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="fosterId != null">
+        #{fosterId,jdbcType=INTEGER},
+      </if>
+      <if test="applyCustId != null">
+        #{applyCustId,jdbcType=INTEGER},
+      </if>
+      <if test="applyState != null">
+        #{applyState,jdbcType=INTEGER},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyClassify != null">
+        #{applyClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="applySchedule != null">
+        #{applySchedule,jdbcType=VARCHAR},
+      </if>
+      <if test="applySpare != null">
+        #{applySpare,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.petsvalley.entity.ApplyExample" resultType="java.lang.Long">
+    select count(*) from apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update apply
+    <set>
+      <if test="record.applyId != null">
+        apply_id = #{record.applyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.serviceId != null">
+        service_id = #{record.serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fosterId != null">
+        foster_id = #{record.fosterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyCustId != null">
+        apply_cust_id = #{record.applyCustId,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyState != null">
+        apply_state = #{record.applyState,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyTime != null">
+        apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.applyClassify != null">
+        apply_classify = #{record.applyClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applySchedule != null">
+        apply_schedule = #{record.applySchedule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applySpare != null">
+        apply_spare = #{record.applySpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update apply
+    set apply_id = #{record.applyId,jdbcType=INTEGER},
+      service_id = #{record.serviceId,jdbcType=INTEGER},
+      foster_id = #{record.fosterId,jdbcType=INTEGER},
+      apply_cust_id = #{record.applyCustId,jdbcType=INTEGER},
+      apply_state = #{record.applyState,jdbcType=INTEGER},
+      apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+      apply_classify = #{record.applyClassify,jdbcType=VARCHAR},
+      apply_schedule = #{record.applySchedule,jdbcType=VARCHAR},
+      apply_spare = #{record.applySpare,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.petsvalley.entity.Apply">
+    update apply
+    <set>
+      <if test="serviceId != null">
+        service_id = #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="fosterId != null">
+        foster_id = #{fosterId,jdbcType=INTEGER},
+      </if>
+      <if test="applyCustId != null">
+        apply_cust_id = #{applyCustId,jdbcType=INTEGER},
+      </if>
+      <if test="applyState != null">
+        apply_state = #{applyState,jdbcType=INTEGER},
+      </if>
+      <if test="applyTime != null">
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyClassify != null">
+        apply_classify = #{applyClassify,jdbcType=VARCHAR},
+      </if>
+      <if test="applySchedule != null">
+        apply_schedule = #{applySchedule,jdbcType=VARCHAR},
+      </if>
+      <if test="applySpare != null">
+        apply_spare = #{applySpare,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where apply_id = #{applyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.petsvalley.entity.Apply">
+    update apply
+    set service_id = #{serviceId,jdbcType=INTEGER},
+      foster_id = #{fosterId,jdbcType=INTEGER},
+      apply_cust_id = #{applyCustId,jdbcType=INTEGER},
+      apply_state = #{applyState,jdbcType=INTEGER},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      apply_classify = #{applyClassify,jdbcType=VARCHAR},
+      apply_schedule = #{applySchedule,jdbcType=VARCHAR},
+      apply_spare = #{applySpare,jdbcType=VARCHAR}
+    where apply_id = #{applyId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectCountByServiceId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(apply_id)
+    from apply
+    where service_id=#{serviceId}
+  </select>
+
+  <select id="selectAlreadyApply" resultType="java.lang.Integer">
+    select count(apply_id)
+    from apply
+    where service_id=#{arg0} and apply_cust_id=#{arg1}
+  </select>
+</mapper>
